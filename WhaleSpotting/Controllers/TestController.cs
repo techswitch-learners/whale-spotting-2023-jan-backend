@@ -9,6 +9,6 @@ public class TestController : ControllerBase
     [HttpGet("")]
     public IActionResult Test()
     {
-        return Ok("The Whale Spotting API is running correctly!");
+        return Ok("The Whale Spotting API is running!");
     }
 }
