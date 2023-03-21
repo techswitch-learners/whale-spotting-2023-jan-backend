@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WhaleSpotting.Models.Database;
 
@@ -7,6 +9,7 @@ public class User
     public int Id { get; set; }
     public string? Username { get; set; }
     public string? HashedPassword { get; set; }
+    List<WhaleSighting> WhaleSighting { get; set; }
 
     public string Password
     {
