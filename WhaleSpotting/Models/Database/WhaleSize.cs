@@ -1,7 +1,7 @@
 public enum WhaleSize
 {
-    Small_0_to_5m,
-    Medium_5_to_10m,
-    Large_10_to_20m,
-    VeryLarge_over_20m
+    Small0To5m,
+    Medium5To10m,
+    Large10To20m,
+    VeryLargeOver20m,
 }

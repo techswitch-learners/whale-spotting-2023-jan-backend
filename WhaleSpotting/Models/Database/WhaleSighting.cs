@@ -17,4 +17,3 @@ public class WhaleSighting
     public WhaleSpecies WhaleSpecies { get; set; }
     public User User { get; set; }
 }
-
