@@ -13,6 +13,6 @@ public class CreateUserRequest
         Password = password;
         ProfileImageUrl = profileImageUrl;
         UserBio = userBio;
-        UserType = 1;
+        UserType = 0;
     }
 }
