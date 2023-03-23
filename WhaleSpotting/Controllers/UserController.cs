@@ -29,7 +29,7 @@ public class UserController : ControllerBase
             return NotFound();
         }
     }
-    [HttpPost("createUser")]
+    [HttpPost("user/create")]
     public IActionResult CreateUser([FromBody] CreateUserRequest newUser)
     {
         if (!ModelState.IsValid)
