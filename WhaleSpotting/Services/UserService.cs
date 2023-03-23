@@ -8,7 +8,6 @@ public interface IUserService
 {
     public User Create(UserRequest newUserRequest);
     public User GetById(int id);
-    public User CreateNewUser(CreateUserRequest newUser);
 }
 
 public class UserService : IUserService
@@ -28,9 +27,5 @@ public class UserService : IUserService
     public User GetById(int id)
     {
         return _users.GetById(id);
-    }
-    public User CreateNewUser(CreateUserRequest newUser)
-    {
-        return _users.CreateNewUser(newUser);
     }
 }

@@ -30,15 +30,15 @@ public class UserController : ControllerBase
         }
     }
     [HttpPost("create")]
-    public IActionResult CreateUser([FromBody] CreateUserRequest newUser)
+    public IActionResult Create([FromBody] UserRequest newUser)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var user = _userService.CreateNewUser(newUser);
-        var url = Url.Action("GetById", new { userId = user.Id });
-        var responseViewModel = new UserResponse(user);
+        var newuser = _userService.Create(newUser);
+        var url = Url.Action("GetById", new { userId = newuser.Id });
+        var responseViewModel = new UserResponse(newuser);
         return Created(url, responseViewModel);
     }
 }

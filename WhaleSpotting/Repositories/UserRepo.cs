@@ -8,7 +8,6 @@ public interface IUserRepo
     public User Create(UserRequest newUserRequest);
     public User GetById(int id);
     public User GetByUsername(string username);
-    public User CreateNewUser(CreateUserRequest newUser);
 }
 
 public class UserRepo : IUserRepo
@@ -27,7 +26,6 @@ public class UserRepo : IUserRepo
             throw new ArgumentOutOfRangeException(nameof(newUserRequest),
                 $"The given username {newUserRequest.Username} is already present in the database");
         }
-
         var newUser = new User
         {
             Username = newUserRequest.Username ??
@@ -35,7 +33,10 @@ public class UserRepo : IUserRepo
                            "Property \"Username\" must not be null"),
             Password = newUserRequest.Password ??
                        throw new ArgumentNullException(nameof(newUserRequest),
-                           "Property \"Password\" must not be null")
+                           "Property \"Password\" must not be null"),
+            ProfileImageUrl = newUserRequest.ProfileImageUrl,
+            UserBio = newUserRequest.UserBio,
+            UserType = 0,
         };
         var insertedEntity = context.Users.Add(newUser);
         context.SaveChanges();
@@ -66,18 +67,4 @@ public class UserRepo : IUserRepo
             throw new ArgumentOutOfRangeException($"No user with username {username} found in the database", ex);
         }
     }
-    public User CreateNewUser(CreateUserRequest newUser)
-    {
-        var insertResponse = context.Users.Add(new User
-        {
-            Username = newUser.Username,
-            Password = newUser.Password,
-            ProfileImageUrl = newUser.ProfileImageUrl,
-            UserBio = newUser.UserBio,
-            UserType = (UserType)newUser.UserType,
-        });
-        context.SaveChanges();
-        return insertResponse.Entity;
-    }
-
 }
