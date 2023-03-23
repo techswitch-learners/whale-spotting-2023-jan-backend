@@ -22,8 +22,11 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<ILoginService, LoginService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ISpeciesService, SpeciesService>();
+
 
 builder.Services.AddTransient<IUserRepo, UserRepo>();
+builder.Services.AddTransient<ISpeciesRepo, SpeciesRepo>();
 
 builder.Services.AddTransient<WhaleSpottingDbContext>();
 
