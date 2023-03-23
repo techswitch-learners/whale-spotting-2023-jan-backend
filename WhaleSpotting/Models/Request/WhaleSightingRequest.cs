@@ -8,5 +8,5 @@ public class WhaleSightingRequest
     public string PhotoImageURL { get; set; }
     public int NumberOfWhales { get; set; }
     public string Description { get; set; }
-    public WhaleSpecies WhaleSpecies { get; set; }
+    public string WhaleSpecies { get; set; }
 }
