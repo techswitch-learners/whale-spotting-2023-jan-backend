@@ -7,16 +7,16 @@ namespace WhaleSpotting.Controllers;
 
 [ApiController]
 [Route("likes")]
-public class LikesController : ControllerBase
+public class LikeController : ControllerBase
 {
     private readonly ILikeService _likesService;
 
-    public LikesController(ILikeService likesService)
+    public LikeController(ILikeService likesService)
     {
         _likesService = likesService;
     }
-    [HttpPost("createLike")]
-    public IActionResult CreateLike([FromBody] LikeRequest newLike)
+    [HttpPost("create")]
+    public IActionResult CreateLike([FromBody] LikeRequest newLike, [FromHeader(Name = "Authorization")] string authHeader)
     {
         if (!ModelState.IsValid)
         {
@@ -24,8 +24,9 @@ public class LikesController : ControllerBase
         }
         try
         {
-            _likesService.Create(newLike);
-            return Ok($"User Id: {newLike.UserId} liked whalesighting Id: {newLike.WhaleSightingId}.");
+            
+            _likesService.Create(newLike, authHeader);
+            return Ok($"User liked whalesighting Id: {newLike.WhaleSightingId}.");
         }
         catch (System.Exception ex)
         {

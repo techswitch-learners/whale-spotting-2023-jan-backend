@@ -5,7 +5,7 @@ namespace WhaleSpotting.Repositories;
 
 public interface ILikeRepo
 {
-    public void Create(LikeRequest newLikeRequest);
+    public void Create(LikeRequest newLikeRequest, int userId);
 }
 
 public class LikeRepo : ILikeRepo
@@ -17,13 +17,13 @@ public class LikeRepo : ILikeRepo
         this.context = context;
     }
     
-    public void Create(LikeRequest newLikeRequest)
+    public void Create(LikeRequest newLikeRequest, int userId)
     {
-        var insertResult = context.Likes.Add(new Like
+        context.Likes.Add(new Like
         {
             Date = DateTime.Now.ToUniversalTime(),
             WhaleSightingId = newLikeRequest.WhaleSightingId,
-            UserId = newLikeRequest.UserId,
+            UserId = userId,
         });
         context.SaveChanges();
     }
