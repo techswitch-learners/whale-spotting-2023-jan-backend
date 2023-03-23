@@ -13,7 +13,7 @@ public class WhaleSighting
     public string? PhotoImageURL { get; set; }
     public int NumberOfWhales { get; set; }
     public ApprovalStatus ApprovalStatus {get;set;}
-    public string? Description { get; set; }
-    public WhaleSpecies WhaleSpecies { get; set; }
-    public User User { get; set; }
+    public string? Description { get; set; } 
+    public WhaleSpecies? WhaleSpecies { get; set; }
+    public User? User { get; set; }
 }
