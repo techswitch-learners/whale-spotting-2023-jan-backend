@@ -11,6 +11,8 @@ public class User
     public string? HashedPassword { get; set; }
     List<WhaleSighting> WhaleSighting { get; set; }
 
+    public ICollection<Likes> Likes { get; set; }
+
     public string Password
     {
         set
