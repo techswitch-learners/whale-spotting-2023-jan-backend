@@ -10,17 +10,16 @@ namespace WhaleSpotting.Controllers;
 public class SpeciesController : ControllerBase
 {
     private readonly ISpeciesService _speciesService;
-    
+
     public SpeciesController(ISpeciesService speciesService)
     {
         _speciesService = speciesService;
     }
 
     [HttpGet("")]
-    public ActionResult<SearchResponse> Search([FromQuery] SpeciesSearchRequest speciesRequest)
+    public ActionResult<List<SpeciesResponse>> Search([FromQuery] SpeciesSearchRequest speciesRequest)
     {
-        var speciesList = _speciesService.Search(speciesRequest).ToList();
-        // var speciesCount = _speciesService.Count(speciesList);
-        return SearchResponse.Create(speciesList);
+        List<SpeciesResponse> speciesList = _speciesService.Search(speciesRequest).ToList();
+        return speciesList;
     }
 }

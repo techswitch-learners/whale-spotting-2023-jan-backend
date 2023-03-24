@@ -1,3 +1,4 @@
+
 namespace WhaleSpotting.Models.Request;
 public class SpeciesSearchRequest
 {

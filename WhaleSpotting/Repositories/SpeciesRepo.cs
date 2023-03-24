@@ -1,8 +1,10 @@
+
 using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
 using WhaleSpotting.Models.Response;
 
 namespace WhaleSpotting.Repositories;
+
 public interface ISpeciesRepo
 {
     IEnumerable<SpeciesResponse> Search(SpeciesSearchRequest search);
