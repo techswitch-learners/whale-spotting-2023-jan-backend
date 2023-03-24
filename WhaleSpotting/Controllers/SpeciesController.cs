@@ -19,7 +19,6 @@ public class SpeciesController : ControllerBase
     [HttpGet("")]
     public ActionResult<List<SpeciesResponse>> Search([FromQuery] SpeciesSearchRequest speciesRequest)
     {
-        List<SpeciesResponse> speciesList = _speciesService.Search(speciesRequest).ToList();
-        return speciesList;
+        return  _speciesService.Search(speciesRequest);
     }
 }

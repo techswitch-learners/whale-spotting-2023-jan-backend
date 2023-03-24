@@ -14,6 +14,7 @@ public class SpeciesResponse
     public string Colour { get; set; }
     public string Location { get; set; }
     public string Diet { get; set; }
+
     public SpeciesResponse (WhaleSpecies species)
     {
         Id = species.Id;

@@ -7,7 +7,7 @@ namespace WhaleSpotting.Repositories;
 
 public interface ISpeciesRepo
 {
-    IEnumerable<SpeciesResponse> Search(SpeciesSearchRequest search);
+    List<SpeciesResponse> Search(SpeciesSearchRequest search);
 }
 public class SpeciesRepo : ISpeciesRepo
 {
@@ -17,31 +17,30 @@ public class SpeciesRepo : ISpeciesRepo
     {
         _context = context;
     }
-    public IEnumerable<SpeciesResponse> Search(SpeciesSearchRequest search)
+    public List<SpeciesResponse> Search(SpeciesSearchRequest search)
     {
         try
         {
             return _context.WhaleSpecies
-                //enum value is assigned from 0 onwards if no other value is assigned
-                .Where(p => search.TailType == null ||
+                .Where(s => search.TailType == null ||
                                 (
-                                    p.TailType == search.TailType
+                                    s.TailType == search.TailType
                                 ))
-                .Where(p => search.Size == null ||
+                .Where(s => search.Size == null ||
                                     (
-                                        p.Size == search.Size
+                                        s.Size == search.Size
                                     ))
-                .Where(p => search.Colour == null ||
+                .Where(s => search.Colour == null ||
                                     (
-                                        p.Colour == search.Colour
+                                        s.Colour == search.Colour
                                     ))
                 .Select(x => new SpeciesResponse(x))
                 .AsEnumerable()
-                .OrderBy(p => p.Id);
+                .OrderBy(s => s.Id).ToList();
         }
         catch (InvalidOperationException ex)
         {
-            throw new ArgumentOutOfRangeException($"No whale was found in the database", ex);
+            throw new ArgumentOutOfRangeException($"No species was found in the database", ex);
         }
     }
 }
