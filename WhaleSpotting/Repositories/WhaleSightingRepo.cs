@@ -6,7 +6,7 @@ namespace WhaleSpotting.Repositories;
 
 public interface IWhaleSightingRepo
 {
-    WhaleSighting GetById(int id);
+    public WhaleSighting GetById(int id);
 }
 
 public class WhaleSightingRepo : IWhaleSightingRepo
@@ -22,14 +22,14 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         try
         {
             return context.WhaleSightings
-                .Where(u => u.Id == id)
-                .Include(u => u.User)
-                .Include(u => u.WhaleSpecies)
+                .Where(ws => ws.Id == id)
+                .Include(ws => ws.User)
+                .Include(ws => ws.WhaleSpecies)
                 .FirstOrDefault();
         }
         catch (InvalidOperationException ex)
         {
-            throw new ArgumentOutOfRangeException($"No user with id {id} found in the database", ex);
+            throw new ArgumentOutOfRangeException($"No sightning with id {id} found in the database", ex);
         }
     }
 }

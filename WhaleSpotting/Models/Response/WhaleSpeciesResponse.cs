@@ -3,19 +3,27 @@ using WhaleSpotting.Models.Database;
 namespace WhaleSpotting.Models.Response;
 public class WhaleSpeciesResponse
 {
-    private readonly WhaleSpecies _whaleSpecies;
 
-    public WhaleSpeciesResponse(WhaleSpecies whaleSpecies)
-    {
-        _whaleSpecies = whaleSpecies;
-    }
-    public int Id => _whaleSpecies.Id;
-    public string Name => _whaleSpecies.Name;
-    public TailType TailType => _whaleSpecies.TailType;
-    public TeethType TeethType => _whaleSpecies.TeethType;
-    public string ImageUrl => _whaleSpecies.ImageUrl;
-    public string Colour => _whaleSpecies.Colour;
-    public string Location => _whaleSpecies.Location;
-    public string Diet => _whaleSpecies.Diet;
-    public WhaleSize Size => _whaleSpecies.Size;
+    public int Id {get;set;}
+    public string Name {get;set;}
+    public TailType TailType {get;set;}
+    public TeethType TeethType {get;set;}
+    public string ImageUrl {get;set;}
+    public string Colour {get;set;}
+    public string Location {get;set;}
+    public string Diet {get;set;}
+    public WhaleSize Size {get;set;}
+    public WhaleSpeciesResponse (WhaleSpecies whaleSpecies) {
+
+            Id = whaleSpecies.Id;
+            Name = whaleSpecies.Name;
+            TailType = whaleSpecies.TailType;
+            TeethType = whaleSpecies.TeethType;
+            ImageUrl = whaleSpecies.ImageUrl;
+            Colour = whaleSpecies.Colour;
+            Location = whaleSpecies.Location;
+            Diet =whaleSpecies.Diet;
+            Size = whaleSpecies.Size;
+        }
 }
+  
