@@ -28,7 +28,7 @@ public class UserRepo : IUserRepo
         }
         var newUser = new User
         {
-            Username = newUserRequest.Username ??
+            Username = newUserRequest.Username.ToLower() ??
                        throw new ArgumentNullException(nameof(newUserRequest),
                            "Property \"Username\" must not be null"),
             Password = newUserRequest.Password ??
