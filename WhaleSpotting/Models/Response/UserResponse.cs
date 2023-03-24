@@ -6,6 +6,9 @@ public class UserResponse
 {
     public int Id { get; set; }
     public string Username { get; set; }
+    public string Password { get; set; }
+    public string ProfileImageUrl { get; set; }
+    public string UserBio { get; set; }
 
     public UserResponse(User user)
     {
