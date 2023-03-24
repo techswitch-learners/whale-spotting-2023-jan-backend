@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WhaleSpotting;
@@ -11,9 +12,10 @@ using WhaleSpotting;
 namespace WhaleSpotting.Migrations
 {
     [DbContext(typeof(WhaleSpottingDbContext))]
-    partial class WhaleSpottingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230322113839_AddLikesTableDB")]
+    partial class AddLikesTableDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -22,7 +24,7 @@ namespace WhaleSpotting.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("WhaleSpotting.Models.Database.Like", b =>
+            modelBuilder.Entity("WhaleSpotting.Models.Database.Likes", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -58,15 +60,6 @@ namespace WhaleSpotting.Migrations
 
                     b.Property<string>("HashedPassword")
                         .HasColumnType("text");
-
-                    b.Property<string>("ProfileImageUrl")
-                        .HasColumnType("text");
-
-                    b.Property<string>("UserBio")
-                        .HasColumnType("text");
-
-                    b.Property<int>("UserType")
-                        .HasColumnType("integer");
 
                     b.Property<string>("Username")
                         .HasColumnType("text");
@@ -164,7 +157,7 @@ namespace WhaleSpotting.Migrations
                     b.ToTable("WhaleSpecies");
                 });
 
-            modelBuilder.Entity("WhaleSpotting.Models.Database.Like", b =>
+            modelBuilder.Entity("WhaleSpotting.Models.Database.Likes", b =>
                 {
                     b.HasOne("WhaleSpotting.Models.Database.User", "User")
                         .WithMany("Likes")

@@ -16,4 +16,5 @@ public class WhaleSighting
     public string Description { get; set; }
     public WhaleSpecies WhaleSpecies { get; set; }
     public User User { get; set; }
+    public ICollection<Like> Likes { get; set; }
 }
