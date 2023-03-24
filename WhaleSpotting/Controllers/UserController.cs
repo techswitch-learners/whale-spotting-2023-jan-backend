@@ -38,7 +38,6 @@ public class UserController : ControllerBase
         }
         var user = _userService.Create(newUser);
         var url = Url.Action("GetById", new { userId = user.Id });
-        var responseViewModel = new UserResponse(user);
-        return Created(url, responseViewModel);
+        return Created(url, new UserResponse(user));
     }
 }
