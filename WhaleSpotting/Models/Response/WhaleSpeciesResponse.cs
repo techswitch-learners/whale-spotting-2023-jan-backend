@@ -1,9 +1,9 @@
 using WhaleSpotting.Models.Database;
 
 namespace WhaleSpotting.Models.Response;
+
 public class WhaleSpeciesResponse
 {
-
     public int Id {get;set;}
     public string Name {get;set;}
     public TailType TailType {get;set;}
@@ -13,8 +13,8 @@ public class WhaleSpeciesResponse
     public string Location {get;set;}
     public string Diet {get;set;}
     public WhaleSize Size {get;set;}
-    public WhaleSpeciesResponse (WhaleSpecies whaleSpecies) {
 
+    public WhaleSpeciesResponse (WhaleSpecies whaleSpecies) {
             Id = whaleSpecies.Id;
             Name = whaleSpecies.Name;
             TailType = whaleSpecies.TailType;

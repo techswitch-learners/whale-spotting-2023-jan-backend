@@ -13,7 +13,8 @@ public class WhaleSightingResponse
     public int NumberOfWhales { get; set; }
     public ApprovalStatus ApprovalStatus { get; set; }
     public WhaleSpeciesResponse WhaleSpecies { get; set; }
-    public UserResponse User { get; set; }    
+    public UserResponse User { get; set; }  
+      
     public WhaleSightingResponse(WhaleSighting whaleSighting)
     {
         Id = whaleSighting.Id;
