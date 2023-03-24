@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WhaleSpotting.Models.Database;
 
-public class Likes
+public class Like
 {
     public int Id { get; set; }
     public DateTime Date { get; set; }

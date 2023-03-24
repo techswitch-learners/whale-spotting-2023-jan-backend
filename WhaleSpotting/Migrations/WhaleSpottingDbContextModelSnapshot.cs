@@ -22,7 +22,7 @@ namespace WhaleSpotting.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("WhaleSpotting.Models.Database.Likes", b =>
+            modelBuilder.Entity("WhaleSpotting.Models.Database.Like", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,7 +155,7 @@ namespace WhaleSpotting.Migrations
                     b.ToTable("WhaleSpecies");
                 });
 
-            modelBuilder.Entity("WhaleSpotting.Models.Database.Likes", b =>
+            modelBuilder.Entity("WhaleSpotting.Models.Database.Like", b =>
                 {
                     b.HasOne("WhaleSpotting.Models.Database.User", "User")
                         .WithMany("Likes")

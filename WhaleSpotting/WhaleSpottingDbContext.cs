@@ -9,8 +9,8 @@ public class WhaleSpottingDbContext : DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<WhaleSighting> WhaleSightings { get; set; }
     public DbSet<WhaleSpecies> WhaleSpecies { get; set; }
-    public DbSet<Likes> Likes { get; set; }
-    
+    public DbSet<Like> Likes { get; set; }
+
     protected override void OnConfiguring(
         DbContextOptionsBuilder optionsBuilder
     )
