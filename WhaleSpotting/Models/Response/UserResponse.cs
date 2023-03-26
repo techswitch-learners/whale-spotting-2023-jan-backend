@@ -6,6 +6,10 @@ public class UserResponse
 {
     public int Id { get; set; }
     public string Username { get; set; }
+    public string ProfileImageUrl { get; set; }
+    public string UserBio { get; set; }
+    public UserType UserType { get; set; }
+    List<WhaleSighting> WhaleSighting { get; set; }
 
     public UserResponse(User user)
     {

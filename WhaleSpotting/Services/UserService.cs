@@ -18,7 +18,7 @@ public class UserService : IUserService
     {
         _users = users;
     }
-    
+
     public User Create(UserRequest newUserRequest)
     {
         return _users.Create(newUserRequest);

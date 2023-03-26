@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WhaleSpotting.Models.Request;
 using WhaleSpotting.Models.Response;
 using WhaleSpotting.Services;
 
@@ -27,5 +28,16 @@ public class UserController : ControllerBase
         {
             return NotFound();
         }
+    }
+    [HttpPost("create")]
+    public IActionResult Create([FromBody] UserRequest newUser)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var user = _userService.Create(newUser);
+        var url = Url.Action("GetById", new { userId = user.Id });
+        return Created(url, new UserResponse(user));
     }
 }
