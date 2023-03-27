@@ -26,15 +26,17 @@ public class UserRepo : IUserRepo
             throw new ArgumentOutOfRangeException(nameof(newUserRequest),
                 $"The given username {newUserRequest.Username} is already present in the database");
         }
-        
         var newUser = new User
         {
-            Username = newUserRequest.Username ??
+            Username = newUserRequest.Username.ToLower() ??
                        throw new ArgumentNullException(nameof(newUserRequest),
                            "Property \"Username\" must not be null"),
             Password = newUserRequest.Password ??
-                       throw new ArgumentNullException(nameof(newUserRequest), 
-                           "Property \"Password\" must not be null")
+                       throw new ArgumentNullException(nameof(newUserRequest),
+                           "Property \"Password\" must not be null"),
+            ProfileImageUrl = newUserRequest.ProfileImageUrl,
+            UserBio = newUserRequest.UserBio,
+            UserType = 0,
         };
         var insertedEntity = context.Users.Add(newUser);
         context.SaveChanges();
