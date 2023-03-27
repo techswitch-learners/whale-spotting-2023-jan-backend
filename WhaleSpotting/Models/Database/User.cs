@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,6 +10,9 @@ public class User
     public string? Username { get; set; }
     public string? HashedPassword { get; set; }
     List<WhaleSighting> WhaleSighting { get; set; }
+    public string? UserBio { get; set; }
+    public string? ProfileImageUrl { get; set; }
+    public UserType UserType { get; set; }
 
     public ICollection<Like> Likes { get; set; }
 
