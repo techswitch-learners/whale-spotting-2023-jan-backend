@@ -7,7 +7,7 @@ namespace WhaleSpotting.Repositories;
 
 public interface ISpeciesRepo
 {
-    List<SpeciesResponse> Search(SpeciesSearchRequest search);
+    List<WhaleSpeciesResponse> Search(SpeciesSearchRequest search);
 }
 public class SpeciesRepo : ISpeciesRepo
 {
@@ -17,7 +17,7 @@ public class SpeciesRepo : ISpeciesRepo
     {
         _context = context;
     }
-    public List<SpeciesResponse> Search(SpeciesSearchRequest search)
+    public List<WhaleSpeciesResponse> Search(SpeciesSearchRequest search)
     {
         try
         {
@@ -34,7 +34,7 @@ public class SpeciesRepo : ISpeciesRepo
                                     (
                                         s.Colour == search.Colour
                                     ))
-                .Select(x => new SpeciesResponse(x))
+                .Select(x => new WhaleSpeciesResponse(x))
                 .AsEnumerable()
                 .OrderBy(s => s.Id).ToList();
         }
