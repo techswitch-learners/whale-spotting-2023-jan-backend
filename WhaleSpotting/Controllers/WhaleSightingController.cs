@@ -1,17 +1,21 @@
 using Microsoft.AspNetCore.Mvc;
 using WhaleSpotting.Models.Response;
+using WhaleSpotting.Models.Database;
 using WhaleSpotting.Services;
+using WhaleSpotting.Utilities;
 
 namespace WhaleSpotting.Controllers;
 
 [ApiController]
-[Route("sighting")]
+[Route("sightings")]
 public class WhaleSightingController : ControllerBase
 {
     private readonly IWhaleSightingService _whaleSightingService;
-    public WhaleSightingController(IWhaleSightingService whaleSightingService)
+    private readonly ILoginService _loginService;
+    public WhaleSightingController(IWhaleSightingService whaleSightingService, ILoginService loginService)
     {
         _whaleSightingService = whaleSightingService;
+        _loginService = loginService;
     }
 
     [HttpGet("{Id:int}")]
@@ -27,4 +31,28 @@ public class WhaleSightingController : ControllerBase
             return NotFound();
         }
     }
+
+    [HttpPatch("{id}/Approve")]
+    public ActionResult ApproveSighting([FromRoute] int id, [FromHeader(Name = "Authorization")] string authorization)
+    {
+        (string Username, string Password) details;
+
+        try
+        {
+            details = AuthHelper.ExtractFromAuthHeader(authorization);
+        }
+        catch (Exception)
+        {
+            return Unauthorized(
+                "Authorization header was not valid. Ensure you are using basic auth, and have correctly base64-encoded your username and password.");
+        }
+
+        if (_loginService.IsValidLogin(details.Username, details.Password) && _loginService.IsAdmin(details.Username))
+        {
+            _whaleSightingService.ApproveSighting(id);
+            return Ok("Approved");
+        }
+        return Unauthorized("Invalid login details.");
+    }
+
 }
