@@ -33,4 +33,19 @@ public class LikeController : ControllerBase
             return BadRequest(ex.Message);
         }   
     }
+    
+    [HttpDelete("{likeId:int}")]
+    public IActionResult DeleteLike([FromRoute]int likeId)
+    {
+        try 
+        {
+            _likesService.Delete(likeId);
+        }
+        catch (Exception)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError,
+                "Error deleting data");
+        }
+        return Ok($"Like deleted");
+    }
 }
