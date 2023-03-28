@@ -43,7 +43,8 @@ public class WhaleSightingRepo : IWhaleSightingRepo
             .Include(ws => ws.User)
             .Include(ws => ws.WhaleSpecies)
             .Select(x => new WhaleSightingResponse(x))
-            .AsEnumerable().ToList();
+            .AsEnumerable()
+            .OrderBy(ws => ws.Id).ToList();
         }
         catch (InvalidOperationException ex)
         {

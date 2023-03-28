@@ -32,7 +32,8 @@ public class WhaleSightingController : ControllerBase
     [HttpGet("")]
     public ActionResult<List<WhaleSightingResponse>> ListApprovedSightings()
     {
-        try{
+        try
+        {
              return  _whaleSightingService.ListApprovedSightings();
         }
         catch (ArgumentOutOfRangeException)
