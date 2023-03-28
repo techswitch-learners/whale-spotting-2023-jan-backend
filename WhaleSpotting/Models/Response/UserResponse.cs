@@ -16,5 +16,7 @@ public class UserResponse
         Id = user.Id;
 
         Username = user.Username ?? throw new ArgumentNullException(nameof(user));
+
+        UserType = user.UserType;
     }
 }
