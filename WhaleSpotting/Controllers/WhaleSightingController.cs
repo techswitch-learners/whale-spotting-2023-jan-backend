@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Response;
 using WhaleSpotting.Services;
 
@@ -26,5 +27,19 @@ public class WhaleSightingController : ControllerBase
         {
             return NotFound();
         }
+    }
+
+    [HttpGet("allpending")]
+    public IActionResult GetPendingSightings()
+    {
+        List<WhaleSighting> whaleSightingsPendingList = _whaleSightingService.GetPendingSightings();
+        List<WhaleSightingResponse> whaleSightingsPendingListResponses = new List<WhaleSightingResponse>();
+
+        foreach (WhaleSighting ws in whaleSightingsPendingList)
+        {
+            var ourWsResponse = new WhaleSightingResponse(ws);
+            whaleSightingsPendingListResponses.Add(ourWsResponse);
+        }
+        return Ok(whaleSightingsPendingListResponses);
     }
 }
