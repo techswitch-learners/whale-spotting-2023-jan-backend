@@ -8,6 +8,7 @@ public interface ILikeRepo
 {
     public void Create(LikeRequest newLikeRequest, int userId);
     public void Delete(int likeId);
+    public Like GetLikeById(int likeId);
 }
 
 public class LikeRepo : ILikeRepo
@@ -18,7 +19,7 @@ public class LikeRepo : ILikeRepo
     {
         this.context = context;
     }
-    
+
     public void Create(LikeRequest newLikeRequest, int userId)
     {
         context.Likes.Add(new Like
@@ -29,11 +30,31 @@ public class LikeRepo : ILikeRepo
         });
         context.SaveChanges();
     }
-    
+
     public void Delete(int likeId)
     {
-        var like = new Like { Id = likeId };
-        context.Likes.Remove(like);
-        context.SaveChanges();
+        var like = GetLikeById(likeId);
+        if (like != null)
+        {
+            context.Likes.Remove(like);
+            context.SaveChanges();
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException("No Like was found in the database");
+        }
+    }
+
+    public Like GetLikeById(int likeId)
+    {
+        var like = context.Likes.FirstOrDefault(s => s.Id == likeId);
+        if (like != null)
+        {
+            return like;
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException("No Like was found in the database");
+        }
     }
 }
