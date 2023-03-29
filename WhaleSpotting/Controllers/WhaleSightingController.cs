@@ -27,4 +27,17 @@ public class WhaleSightingController : ControllerBase
             return NotFound();
         }
     }
+    
+    [HttpPatch("reject")]
+    public IActionResult Reject([FromRoute] int Id) {
+        try 
+        {
+            _whaleSightingService.RejectId(Id);
+            return Ok();
+        }
+        catch (ArgumentOutOfRangeException) 
+        {
+            return NotFound();
+        }
+    }
 }

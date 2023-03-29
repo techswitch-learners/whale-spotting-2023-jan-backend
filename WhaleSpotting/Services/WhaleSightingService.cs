@@ -7,6 +7,7 @@ namespace WhaleSpotting.Services;
 public interface IWhaleSightingService
 {
    public WhaleSighting GetById(int id);
+   public void RejectId(int id);
 }
 
 public class WhaleSightingService : IWhaleSightingService
@@ -21,5 +22,10 @@ public class WhaleSightingService : IWhaleSightingService
     public WhaleSighting GetById(int id)
     {
         return _whaleSighting.GetById(id);
+    }
+
+    public void RejectId(int id)
+    {
+        _whaleSighting.RejectId(id);
     }
 }
