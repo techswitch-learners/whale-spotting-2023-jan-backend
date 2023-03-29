@@ -1,5 +1,6 @@
 using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
+using WhaleSpotting.Models.Response;
 using Microsoft.EntityFrameworkCore;
 
 namespace WhaleSpotting.Repositories;
@@ -7,6 +8,7 @@ namespace WhaleSpotting.Repositories;
 public interface IWhaleSightingRepo
 {
     public WhaleSighting GetById(int id);
+    public List<WhaleSightingResponse> ListApprovedSightings();
 }
 
 public class WhaleSightingRepo : IWhaleSightingRepo
@@ -30,6 +32,24 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         catch (InvalidOperationException ex)
         {
             throw new ArgumentOutOfRangeException($"No sightning with id {id} found in the database", ex);
+        }
+    }
+
+    public List<WhaleSightingResponse> ListApprovedSightings()
+    {
+        try
+        {
+            return context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 1)
+            .Include(ws => ws.User)
+            .Include(ws => ws.WhaleSpecies)
+            .Select(x => new WhaleSightingResponse(x))
+            .AsEnumerable()
+            .OrderBy(ws => ws.Id)
+            .ToList();
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new ArgumentOutOfRangeException($"No approved whale sightings in the database", ex);
         }
     }
 }
