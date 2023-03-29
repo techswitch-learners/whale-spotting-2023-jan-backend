@@ -25,6 +25,8 @@ public class WhaleSightingRepo : IWhaleSightingRepo
                 .Where(ws => ws.Id == id)
                 .Include(ws => ws.User)
                 .Include(ws => ws.WhaleSpecies)
+                .Include(ws => ws.Likes)
+                    .ThenInclude(wsl => wsl.User)
                 .FirstOrDefault();
         }
         catch (InvalidOperationException ex)
