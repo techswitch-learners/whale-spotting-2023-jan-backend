@@ -29,17 +29,16 @@ public class WhaleSightingController : ControllerBase
         }
     }
 
-    [HttpGet("allpending")]
+    [HttpGet("pending")]
     public IActionResult GetPendingSightings()
     {
-        List<WhaleSighting> whaleSightingsPendingList = _whaleSightingService.GetPendingSightings();
-        List<WhaleSightingResponse> whaleSightingsPendingListResponses = new List<WhaleSightingResponse>();
-
-        foreach (WhaleSighting ws in whaleSightingsPendingList)
+        try
         {
-            var ourWsResponse = new WhaleSightingResponse(ws);
-            whaleSightingsPendingListResponses.Add(ourWsResponse);
+             return Ok(_whaleSightingService.GetPendingSightings());
         }
-        return Ok(whaleSightingsPendingListResponses);
+        catch (ArgumentOutOfRangeException)
+        {
+            return NotFound();
+        }
     }
 }
