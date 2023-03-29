@@ -21,4 +21,11 @@ public class SpeciesController : ControllerBase
     {
         return _speciesService.Search(speciesRequest);
     }
+
+    [HttpGet("/species-list")]
+    public ActionResult<List<string>> GetSpeciesList()
+    {
+        return  _speciesService.GetSpeciesList();
+    }
+
 }

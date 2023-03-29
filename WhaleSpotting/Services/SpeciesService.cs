@@ -9,6 +9,7 @@ namespace WhaleSpotting.Services;
 public interface ISpeciesService
 {
     List<WhaleSpeciesResponse> Search(SpeciesSearchRequest search);
+    List<string> GetSpeciesList();
 }
 
 public class SpeciesService : ISpeciesService
@@ -24,4 +25,9 @@ public class SpeciesService : ISpeciesService
     {
         return _species.Search(search);
     }
+
+    public List<string> GetSpeciesList()
+    {
+        return _species.GetSpeciesList();
+    }  
 }

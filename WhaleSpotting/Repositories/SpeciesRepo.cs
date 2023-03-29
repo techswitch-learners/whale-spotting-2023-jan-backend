@@ -8,6 +8,7 @@ namespace WhaleSpotting.Repositories;
 public interface ISpeciesRepo
 {
     List<WhaleSpeciesResponse> Search(SpeciesSearchRequest search);
+    List<string> GetSpeciesList();
 }
 public class SpeciesRepo : ISpeciesRepo
 {
@@ -41,6 +42,20 @@ public class SpeciesRepo : ISpeciesRepo
         catch (InvalidOperationException ex)
         {
             throw new ArgumentOutOfRangeException($"No species was found in the database", ex);
+        }
+    }
+
+    public List<string> GetSpeciesList()
+    {
+        try
+        {
+            return _context.WhaleSpecies
+                .Select(x => x.Name)
+                .ToList();
+        }
+        catch (SystemException ex)
+        {
+            throw new SystemException(ex.Message);
         }
     }
 }
