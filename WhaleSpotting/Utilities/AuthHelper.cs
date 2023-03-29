@@ -29,4 +29,24 @@ public static class AuthHelper
         byte[] decodedBytes = Convert.FromBase64String(encoded);
         return Encoding.UTF8.GetString(decodedBytes);
     }
-}
+
+    public static bool LoginChecker(string authorization)
+    {
+        (string Username, string Password) details;
+
+        try
+        {
+            details = AuthHelper.ExtractFromAuthHeader(authorization);
+            if (_loginService.IsValidLogin(details.Username.ToLower(), details.Password) && _loginService.IsAdmin(details.Username.ToLower()))
+            {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        catch (Exception)
+        {
+            return false;
+        }
+    }
+};

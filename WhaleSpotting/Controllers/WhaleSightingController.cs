@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WhaleSpotting.Models.Response;
 using WhaleSpotting.Services;
+using WhaleSpotting.Utilities;
 
 namespace WhaleSpotting.Controllers;
 
@@ -28,15 +29,14 @@ public class WhaleSightingController : ControllerBase
         }
     }
     
-    [HttpPatch("reject")]
-    public IActionResult Reject([FromRoute] int Id) {
-        try 
+    [HttpPatch("{id}/reject")]
+    public IActionResult Reject([FromRoute] int id, [FromHeader(Name = "Authorization")] string authorization) {
+        
+        if(AuthHelper.LoginChecker(authorization))
         {
-            _whaleSightingService.RejectId(Id);
+            _whaleSightingService.RejectId(id);
             return Ok();
-        }
-        catch (ArgumentOutOfRangeException) 
-        {
+        } else {
             return NotFound();
         }
     }
