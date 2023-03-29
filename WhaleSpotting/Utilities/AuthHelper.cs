@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using WhaleSpotting.Services;
 
 namespace WhaleSpotting.Utilities;
 
@@ -30,19 +31,14 @@ public static class AuthHelper
         return Encoding.UTF8.GetString(decodedBytes);
     }
 
-    public static bool LoginChecker(string authorization)
+    public static bool LoginChecker(string authorization, ILoginService loginService)
     {
         (string Username, string Password) details;
 
         try
         {
             details = AuthHelper.ExtractFromAuthHeader(authorization);
-            if (_loginService.IsValidLogin(details.Username.ToLower(), details.Password) && _loginService.IsAdmin(details.Username.ToLower()))
-            {
-                return true;
-            } else {
-                return false;
-            }
+            return (loginService.IsValidLogin(details.Username.ToLower(), details.Password) && loginService.IsAdmin(details.Username.ToLower()));
         }
         catch (Exception)
         {
