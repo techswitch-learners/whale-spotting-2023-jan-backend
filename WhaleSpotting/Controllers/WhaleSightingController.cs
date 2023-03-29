@@ -47,7 +47,7 @@ public class WhaleSightingController : ControllerBase
                 "Authorization header was not valid. Ensure you are using basic auth, and have correctly base64-encoded your username and password.");
         }
 
-        if (_loginService.IsValidLogin(details.Username, details.Password) && _loginService.IsAdmin(details.Username))
+        if (_loginService.IsValidLogin(details.Username.ToLower(), details.Password) && _loginService.IsAdmin(details.Username.ToLower()))
         {
             _whaleSightingService.ApproveSighting(id);
             return Ok("Approved");
