@@ -1,5 +1,6 @@
 ﻿using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
+using WhaleSpotting.Models.Response;
 using WhaleSpotting.Repositories;
 
 namespace WhaleSpotting.Services;
@@ -8,6 +9,7 @@ public interface IUserService
 {
     public User Create(UserRequest newUserRequest);
     public User GetById(int id);
+    public List<UserResponse> ListAllUsers();
 }
 
 public class UserService : IUserService
@@ -28,4 +30,12 @@ public class UserService : IUserService
     {
         return _users.GetById(id);
     }
+    
+public List<UserResponse> ListAllUsers()
+{
+    return _users.ListAllUsers();
+}
+
+
+
 }
