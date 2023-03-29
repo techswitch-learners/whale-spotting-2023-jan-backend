@@ -9,6 +9,7 @@ public interface ISpeciesRepo
 {
     List<SpeciesResponse> Search(SpeciesSearchRequest search);
     List<string> GetSpeciesList();
+    void Create(WhaleSpeciesRequest newWhaleSpecies);
 }
 public class SpeciesRepo : ISpeciesRepo
 {
@@ -57,5 +58,20 @@ public class SpeciesRepo : ISpeciesRepo
         {
             throw new SystemException(ex.Message);
         }
+    }
+    public void Create(WhaleSpeciesRequest newWhaleSpecies)
+    {
+        _context.WhaleSpecies.Add(new WhaleSpecies
+        {
+            ImageUrl = newWhaleSpecies.ImageUrl,
+            Name = newWhaleSpecies.Name,
+            TailType = newWhaleSpecies.TailType,
+            TeethType = newWhaleSpecies.TeethType,
+            Size = newWhaleSpecies.Size,
+            Colour = newWhaleSpecies.Colour,
+            Location = newWhaleSpecies.Location,
+            Diet = newWhaleSpecies.Diet,
+        });
+        _context.SaveChanges();
     }
 }
