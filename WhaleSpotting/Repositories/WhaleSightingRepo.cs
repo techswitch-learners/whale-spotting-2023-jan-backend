@@ -9,6 +9,7 @@ public interface IWhaleSightingRepo
 {
     public WhaleSighting GetById(int id);
     public void RejectId(int id);
+    public List<WhaleSightingResponse> GetPendingSightings();
     public List<WhaleSightingResponse> ListApprovedSightings();
 }
 
@@ -44,6 +45,16 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         rejectSighting.ApprovalStatus = ApprovalStatus.Deleted;
         context.WhaleSightings.Update(rejectSighting);
         context.SaveChanges();
+    }
+
+    public List<WhaleSightingResponse> GetPendingSightings()
+    {
+        return context.WhaleSightings
+            .Where(ws => ws.ApprovalStatus == ApprovalStatus.Pending)
+            .Include(ws => ws.User)
+            .Include(ws => ws.WhaleSpecies)
+            .Select(ws => new WhaleSightingResponse(ws))
+            .ToList();
     }
 
     public List<WhaleSightingResponse> ListApprovedSightings()
