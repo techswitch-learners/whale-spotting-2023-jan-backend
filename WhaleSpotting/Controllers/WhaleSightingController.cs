@@ -8,7 +8,7 @@ using WhaleSpotting.Utilities;
 namespace WhaleSpotting.Controllers;
 
 [ApiController]
-[Route("sighting")]
+[Route("sightings")]
 public class WhaleSightingController : ControllerBase
 {
     private readonly IWhaleSightingService _whaleSightingService;

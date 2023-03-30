@@ -1,5 +1,7 @@
-﻿using WhaleSpotting.Models.Database;
+﻿using System.Linq;
+using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
+using WhaleSpotting.Models.Response;
 
 namespace WhaleSpotting.Repositories;
 
@@ -8,6 +10,7 @@ public interface IUserRepo
     public User Create(UserRequest newUserRequest);
     public User GetById(int id);
     public User GetByUsername(string username);
+    public List<UserResponse> ListAllUsers();
 }
 
 public class UserRepo : IUserRepo
@@ -66,5 +69,13 @@ public class UserRepo : IUserRepo
         {
             throw new ArgumentOutOfRangeException($"No user with username {username} found in the database", ex);
         }
+    }
+
+    public List<UserResponse> ListAllUsers()
+    {
+        var allUsers = context.Users
+                       .Select(u => new UserResponse(u))
+                       .ToList();
+        return allUsers;
     }
 }

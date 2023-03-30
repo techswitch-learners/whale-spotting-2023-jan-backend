@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WhaleSpotting.Models.Request;
 using WhaleSpotting.Models.Response;
+using WhaleSpotting.Models.Database;
 using WhaleSpotting.Services;
 
 namespace WhaleSpotting.Controllers;
@@ -29,6 +30,7 @@ public class UserController : ControllerBase
             return NotFound();
         }
     }
+
     [HttpPost("create")]
     public IActionResult Create([FromBody] UserRequest newUser)
     {
@@ -39,5 +41,19 @@ public class UserController : ControllerBase
         var user = _userService.Create(newUser);
         var url = Url.Action("GetById", new { userId = user.Id });
         return Created(url, new UserResponse(user));
+    }
+
+    [HttpGet("")]
+    public ActionResult<List<UserResponse>> ListOfUsers()
+    {
+        try
+        {
+            var users = _userService.ListAllUsers();
+            return Ok(users);
+        }
+        catch
+        {
+            return NotFound();
+        }
     }
 }
