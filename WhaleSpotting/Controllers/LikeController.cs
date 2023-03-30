@@ -34,7 +34,7 @@ public class LikeController : ControllerBase
         }
     }
 
-    [HttpDelete("{likeId:int}")]
+    [HttpDelete("delete/{likeId:int}")]
     public IActionResult DeleteLike([FromRoute] int likeId)
     {
         try
