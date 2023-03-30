@@ -24,20 +24,20 @@ public class LikeController : ControllerBase
         }
         try
         {
-            
+
             _likesService.Create(newLike, authHeader);
             return Ok($"User liked whalesighting Id: {newLike.WhaleSightingId}.");
         }
         catch (System.Exception ex)
         {
             return BadRequest(ex.Message);
-        }   
+        }
     }
-    
-    [HttpDelete("{likeId:int}")]
-    public IActionResult DeleteLike([FromRoute]int likeId)
+
+    [HttpDelete("delete/{likeId:int}")]
+    public IActionResult DeleteLike([FromRoute] int likeId)
     {
-        try 
+        try
         {
             _likesService.Delete(likeId);
         }
