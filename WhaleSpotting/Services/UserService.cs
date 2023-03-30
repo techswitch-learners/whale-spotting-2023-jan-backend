@@ -30,12 +30,9 @@ public class UserService : IUserService
     {
         return _users.GetById(id);
     }
-    
-public List<UserResponse> ListAllUsers()
-{
-    return _users.ListAllUsers();
-}
 
-
-
+    public List<UserResponse> ListAllUsers()
+    {
+        return _users.ListAllUsers();
+    }
 }

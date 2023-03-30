@@ -74,8 +74,8 @@ public class UserRepo : IUserRepo
     public List<UserResponse> ListAllUsers()
     {
         var allUsers = context.Users
-                              .Select(u => new UserResponse(u))
-                              .ToList();
+                       .Select(u => new UserResponse(u))
+                       .ToList();
         return allUsers;
     }
 }
