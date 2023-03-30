@@ -1,13 +1,14 @@
 using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
 using Microsoft.EntityFrameworkCore;
+using WhaleSpotting.Models.Response;
 
 namespace WhaleSpotting.Repositories;
 
 public interface IWhaleSightingRepo
 {
     public WhaleSighting GetById(int id);
-    List<WhaleSighting> Search(WhaleSightingSearchRequest whaleSightingSearchRequest);
+    List<WhaleSightingResponse> Search(WhaleSightingSearchRequest whaleSightingSearchRequest);
 }
 
 public class WhaleSightingRepo : IWhaleSightingRepo
@@ -34,31 +35,32 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         }
     }
 
-    public List<WhaleSighting> Search(WhaleSightingSearchRequest whaleSightingSearchRequest) {
+    public List<WhaleSightingResponse> Search(WhaleSightingSearchRequest whaleSightingSearchRequest) {
         try
         {
             var query = context.WhaleSightings
                 .Include(ws => ws.User)
-                .Include(ws => ws.WhaleSpecies)
-                .ToList();
+                .Include(ws => ws.WhaleSpecies);
 
-                if (!string.IsNullOrEmpty(whaleSightingSearchRequest.WhaleSpecies)) query = query.Where(ws => ws.WhaleSpecies.Name.ToLower() == whaleSightingSearchRequest.WhaleSpecies.ToLower()).ToList();
-                
-                if (!string.IsNullOrEmpty(whaleSightingSearchRequest.Colour)) query = query.Where(ws => ws.WhaleSpecies.Colour.ToLower() == whaleSightingSearchRequest.Colour.ToLower()).ToList();
-
-                if (whaleSightingSearchRequest.TailType != null) query = query.Where(ws => ws.WhaleSpecies.TailType == whaleSightingSearchRequest.TailType).ToList();
-
-                if (whaleSightingSearchRequest.Size != null) query = query.Where(ws => ws.WhaleSpecies.Size == whaleSightingSearchRequest.Size).ToList();
+            var filteredQuery = query
+                    .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.WhaleSpecies) 
+                        || ws.WhaleSpecies.Name.ToLower() == whaleSightingSearchRequest.WhaleSpecies.ToLower())
+                    .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.Colour) 
+                        || ws.WhaleSpecies.Colour.ToLower() == whaleSightingSearchRequest.Colour.ToLower())
+                    .Where(ws => (!whaleSightingSearchRequest.MaxLongitude.HasValue) 
+                        || (ws.LocationLongitude <= whaleSightingSearchRequest.MaxLongitude))
+                    .Where(ws => (!whaleSightingSearchRequest.MinLongitude.HasValue) 
+                        || (ws.LocationLongitude >= whaleSightingSearchRequest.MinLongitude))
+                    .Where(ws => (!whaleSightingSearchRequest.MaxLatitude.HasValue) 
+                        || (ws.LocationLatitude <= whaleSightingSearchRequest.MaxLatitude))
+                    .Where(ws => (!whaleSightingSearchRequest.MinLatitude.HasValue) 
+                        || (ws.LocationLatitude >= whaleSightingSearchRequest.MinLatitude))
+                    .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.TailType) 
+                        || ws.WhaleSpecies.TailType == Enum.Parse<TailType>(whaleSightingSearchRequest.TailType))
+                    .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.Size) 
+                        || ws.WhaleSpecies.Size == Enum.Parse<WhaleSize>(whaleSightingSearchRequest.Size));
             
-                if (whaleSightingSearchRequest.MaxLongitude != null) query = query.Where(ws => ws.LocationLongitude <= whaleSightingSearchRequest.MaxLongitude).ToList();
-
-                if (whaleSightingSearchRequest.MinLongitude != null) query = query.Where(ws => ws.LocationLongitude >= whaleSightingSearchRequest.MinLongitude).ToList();
-
-                if (whaleSightingSearchRequest.MaxLatitude != null) query = query.Where(ws => ws.LocationLatitude <= whaleSightingSearchRequest.MaxLatitude).ToList();
-
-                if (whaleSightingSearchRequest.MinLatitude != null) query = query.Where(ws => ws.LocationLatitude >= whaleSightingSearchRequest.MinLatitude).ToList();
-            
-            return query.ToList();
+            return filteredQuery.Select(ws => new WhaleSightingResponse(ws)).ToList();
         }
         catch (SystemException ex)
         {

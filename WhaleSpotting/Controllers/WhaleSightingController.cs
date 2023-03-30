@@ -29,23 +29,18 @@ public class WhaleSightingController : ControllerBase
             return NotFound();
         }
     }
+
     [HttpGet("search")]
     public IActionResult Search([FromQuery] WhaleSightingSearchRequest whaleSightingSearchRequest)
     {
         try
         {
-            var whaleSightings = _whaleSightingService.Search(whaleSightingSearchRequest);
-            List<WhaleSightingResponse> whaleSightingResponses= new List<WhaleSightingResponse>();
-            foreach (WhaleSighting whaleSighting in whaleSightings)
-            {
-                whaleSightingResponses.Add(new WhaleSightingResponse(whaleSighting));
-            }
-
-            return Ok(whaleSightingResponses);
+            List<WhaleSightingResponse> whaleSightings = _whaleSightingService.Search(whaleSightingSearchRequest);
+            return Ok(whaleSightings);
         }
-        catch (ArgumentOutOfRangeException)
+        catch (SystemException ex)
         {
-            return NotFound();
+            return BadRequest(ex.Message);
         }
     }
 }
