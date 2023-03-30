@@ -8,6 +8,7 @@ namespace WhaleSpotting.Repositories;
 public interface IWhaleSightingRepo
 {
     public WhaleSighting GetById(int id);
+    public void RejectId(int id);
     public List<WhaleSightingResponse> GetPendingSightings();
     public List<WhaleSightingResponse> ListApprovedSightings();
 }
@@ -34,6 +35,16 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         {
             throw new ArgumentOutOfRangeException($"No sightning with id {id} found in the database", ex);
         }
+    }
+    
+    public void RejectId(int id)
+    {
+        var rejectSighting = context.WhaleSightings
+            .FirstOrDefault(ws => ws.Id == id);
+
+        rejectSighting.ApprovalStatus = ApprovalStatus.Deleted;
+        context.WhaleSightings.Update(rejectSighting);
+        context.SaveChanges();
     }
 
     public List<WhaleSightingResponse> GetPendingSightings()

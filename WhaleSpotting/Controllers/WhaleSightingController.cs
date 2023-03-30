@@ -3,6 +3,7 @@ using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Response;
 using WhaleSpotting.Models.Database;
 using WhaleSpotting.Services;
+using WhaleSpotting.Utilities;
 
 namespace WhaleSpotting.Controllers;
 
@@ -11,9 +12,11 @@ namespace WhaleSpotting.Controllers;
 public class WhaleSightingController : ControllerBase
 {
     private readonly IWhaleSightingService _whaleSightingService;
-    public WhaleSightingController(IWhaleSightingService whaleSightingService)
+    private readonly ILoginService _loginService;
+    public WhaleSightingController(IWhaleSightingService whaleSightingService,ILoginService loginService)
     {
         _whaleSightingService = whaleSightingService;
+        _loginService = loginService;
     }
 
     [HttpGet("{Id:int}")]
@@ -52,6 +55,17 @@ public class WhaleSightingController : ControllerBase
         }
         catch (ArgumentOutOfRangeException)
         {
+            return NotFound();
+        }
+    }
+    
+    [HttpPatch("{id}/reject")]
+    public IActionResult Reject([FromRoute] int id, [FromHeader(Name = "Authorization")] string authorization) {
+        if(AuthHelper.LoginChecker(authorization, _loginService))
+        {
+            _whaleSightingService.RejectId(id);
+            return Ok();
+        } else {
             return NotFound();
         }
     }
