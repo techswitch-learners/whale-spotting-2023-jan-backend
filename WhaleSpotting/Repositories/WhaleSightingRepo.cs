@@ -47,18 +47,18 @@ public class WhaleSightingRepo : IWhaleSightingRepo
                         || ws.WhaleSpecies.Name.ToLower() == whaleSightingSearchRequest.WhaleSpecies.ToLower())
                     .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.Colour) 
                         || ws.WhaleSpecies.Colour.ToLower() == whaleSightingSearchRequest.Colour.ToLower())
-                    .Where(ws => (!whaleSightingSearchRequest.MaxLongitude.HasValue) 
-                        || (ws.LocationLongitude <= whaleSightingSearchRequest.MaxLongitude))
-                    .Where(ws => (!whaleSightingSearchRequest.MinLongitude.HasValue) 
-                        || (ws.LocationLongitude >= whaleSightingSearchRequest.MinLongitude))
-                    .Where(ws => (!whaleSightingSearchRequest.MaxLatitude.HasValue) 
-                        || (ws.LocationLatitude <= whaleSightingSearchRequest.MaxLatitude))
-                    .Where(ws => (!whaleSightingSearchRequest.MinLatitude.HasValue) 
-                        || (ws.LocationLatitude >= whaleSightingSearchRequest.MinLatitude))
-                    .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.TailType) 
-                        || ws.WhaleSpecies.TailType == Enum.Parse<TailType>(whaleSightingSearchRequest.TailType))
-                    .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.Size) 
-                        || ws.WhaleSpecies.Size == Enum.Parse<WhaleSize>(whaleSightingSearchRequest.Size));
+                    .Where(ws => !whaleSightingSearchRequest.MaxLongitude.HasValue 
+                        || ws.LocationLongitude <= whaleSightingSearchRequest.MaxLongitude)
+                    .Where(ws => !whaleSightingSearchRequest.MinLongitude.HasValue 
+                        || ws.LocationLongitude >= whaleSightingSearchRequest.MinLongitude)
+                    .Where(ws => !whaleSightingSearchRequest.MaxLatitude.HasValue
+                        || ws.LocationLatitude <= whaleSightingSearchRequest.MaxLatitude)
+                    .Where(ws => !whaleSightingSearchRequest.MinLatitude.HasValue 
+                        || ws.LocationLatitude >= whaleSightingSearchRequest.MinLatitude)
+                    .Where(ws => whaleSightingSearchRequest.TailType == null
+                        || ws.WhaleSpecies.TailType == whaleSightingSearchRequest.TailType)
+                    .Where(ws => whaleSightingSearchRequest.Size == null
+                        || ws.WhaleSpecies.Size == whaleSightingSearchRequest.Size);
             
             return filteredQuery.Select(ws => new WhaleSightingResponse(ws)).ToList();
         }
