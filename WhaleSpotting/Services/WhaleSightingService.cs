@@ -9,6 +9,7 @@ public interface IWhaleSightingService
 {
    public WhaleSighting GetById(int id);
    public List<WhaleSightingResponse> GetPendingSightings();
+   public List<WhaleSightingResponse> ListApprovedSightings();
 }
 
 public class WhaleSightingService : IWhaleSightingService
@@ -28,5 +29,10 @@ public class WhaleSightingService : IWhaleSightingService
     public List<WhaleSightingResponse> GetPendingSightings()
     {
         return _whaleSighting.GetPendingSightings();
+    }
+
+    public List<WhaleSightingResponse> ListApprovedSightings()
+    {
+        return _whaleSighting.ListApprovedSightings();
     }
 }

@@ -17,8 +17,15 @@ public class SpeciesController : ControllerBase
     }
 
     [HttpGet("")]
-    public ActionResult<List<SpeciesResponse>> Search([FromQuery] SpeciesSearchRequest speciesRequest)
+    public ActionResult<List<WhaleSpeciesResponse>> Search([FromQuery] SpeciesSearchRequest speciesRequest)
     {
-        return  _speciesService.Search(speciesRequest);
+        return _speciesService.Search(speciesRequest);
     }
+
+    [HttpGet("/species-list")]
+    public ActionResult<List<string>> GetSpeciesList()
+    {
+        return  _speciesService.GetSpeciesList();
+    }
+
 }

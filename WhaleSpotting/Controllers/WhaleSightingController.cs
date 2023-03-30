@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Response;
+using WhaleSpotting.Models.Database;
 using WhaleSpotting.Services;
 
 namespace WhaleSpotting.Controllers;
@@ -35,6 +36,19 @@ public class WhaleSightingController : ControllerBase
         try
         {
              return Ok(_whaleSightingService.GetPendingSightings());
+        }
+        catch (ArgumentOutOfRangeException)
+        {
+            return NotFound();
+        }
+    }
+
+    [HttpGet("")]
+    public ActionResult<List<WhaleSightingResponse>> ListApprovedSightings()
+    {
+        try
+        {
+             return  _whaleSightingService.ListApprovedSightings();
         }
         catch (ArgumentOutOfRangeException)
         {
