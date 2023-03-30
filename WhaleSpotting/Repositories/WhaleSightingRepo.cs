@@ -36,9 +36,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
     
     public void RejectId(int id)
     {
-        // WhaleSighting rejectSighting = new WhaleSighting();
         var rejectSighting = context.WhaleSightings
-            // .Where(ws => ws.Id == id) 
             .FirstOrDefault(ws => ws.Id == id);
 
         rejectSighting.ApprovalStatus = ApprovalStatus.Deleted;
