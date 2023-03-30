@@ -1,6 +1,9 @@
 using WhaleSpotting;
 using WhaleSpotting.Repositories;
 using WhaleSpotting.Services;
+using WhaleSpotting.Data;
+using WhaleSpotting.Models.Database;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +36,63 @@ builder.Services.AddTransient<ISpeciesRepo, SpeciesRepo>();
 builder.Services.AddTransient<WhaleSpottingDbContext>();
 
 var app = builder.Build();
+
+//populate db with sample data if empty
+using var scope = app.Services.CreateScope();
+var services = scope.ServiceProvider;
+var context = services.GetRequiredService<WhaleSpottingDbContext>();
+//context.Database.EnsureDeleted();
+context.Database.EnsureCreated();
+foreach (var item in context.WhaleSightings)
+{
+    context.WhaleSightings.Remove(item);
+}
+foreach (var item in context.WhaleSpecies)
+{
+    context.WhaleSpecies.Remove(item);
+}
+foreach (var item in context.Users)
+{
+    context.Users.Remove(item);
+}
+context.SaveChanges();
+//context.Database.ExecuteSqlRaw("DELETE FROM WhaleSpecies");
+//context.Database.ExecuteSqlRaw("DELETE FROM WhaleSightings");
+//context.Database.ExecuteSqlRaw("DELETE FROM Users");
+var species = SampleSpecies.GetSpecies();
+context.WhaleSpecies.AddRange(species);
+context.SaveChanges();
+var users = SampleUsers.GetUsers();
+context.Users.AddRange(users);
+context.SaveChanges();
+
+//read through "sightings" and create a new collection of WhaleSighting
+var sightings = SampleSightings.GetSightings();
+var collectionOfSightings = new List<WhaleSighting>();
+var newWhaleSpecies = new WhaleSpecies();
+var newUser = new User();
+var newWhaleSighting = new WhaleSighting();
+
+foreach (var singleSighting in sightings)
+{
+    newWhaleSpecies = context.WhaleSpecies.Single(u => u.Id == singleSighting.WhaleSpeciesId);
+    newUser = context.Users.Single(u => u.Id == singleSighting.UserId);
+    collectionOfSightings.Add(new WhaleSighting()
+    {
+        DateOfSighting = singleSighting.DateOfSighting.ToUniversalTime(),
+        LocationLatitude = singleSighting.LocationLatitude,
+        LocationLongitude = singleSighting.LocationLongitude,
+        PhotoImageURL = singleSighting.PhotoImageURL,
+        NumberOfWhales = singleSighting.NumberOfWhales,
+        ApprovalStatus = singleSighting.ApprovalStatus,
+        Description = singleSighting.Description,
+        WhaleSpecies = newWhaleSpecies,
+        User = newUser,
+    }
+    );
+}
+context.WhaleSightings.AddRange(collectionOfSightings);
+context.SaveChanges();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
