@@ -41,32 +41,19 @@ var app = builder.Build();
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<WhaleSpottingDbContext>();
-//context.Database.EnsureDeleted();
 context.Database.EnsureCreated();
-foreach (var item in context.WhaleSightings)
-{
-    context.WhaleSightings.Remove(item);
-}
-foreach (var item in context.WhaleSpecies)
-{
-    context.WhaleSpecies.Remove(item);
-}
-foreach (var item in context.Users)
-{
-    context.Users.Remove(item);
-}
+//Create Sample Data in Database
+context.Database.ExecuteSqlRaw("TRUNCATE public.\"WhaleSightings\" RESTART IDENTITY CASCADE");
+context.Database.ExecuteSqlRaw("TRUNCATE public.\"WhaleSpecies\" RESTART IDENTITY CASCADE");
+context.Database.ExecuteSqlRaw("TRUNCATE public.\"Users\" RESTART IDENTITY CASCADE");
 context.SaveChanges();
-//context.Database.ExecuteSqlRaw("DELETE FROM WhaleSpecies");
-//context.Database.ExecuteSqlRaw("DELETE FROM WhaleSightings");
-//context.Database.ExecuteSqlRaw("DELETE FROM Users");
+
 var species = SampleSpecies.GetSpecies();
 context.WhaleSpecies.AddRange(species);
 context.SaveChanges();
 var users = SampleUsers.GetUsers();
 context.Users.AddRange(users);
 context.SaveChanges();
-
-//read through "sightings" and create a new collection of WhaleSighting
 var sightings = SampleSightings.GetSightings();
 var collectionOfSightings = new List<WhaleSighting>();
 var newWhaleSpecies = new WhaleSpecies();
