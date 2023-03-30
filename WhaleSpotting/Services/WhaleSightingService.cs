@@ -1,5 +1,6 @@
 using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
+using WhaleSpotting.Models.Response;
 using WhaleSpotting.Repositories;
 
 namespace WhaleSpotting.Services;
@@ -7,6 +8,7 @@ namespace WhaleSpotting.Services;
 public interface IWhaleSightingService
 {
    public WhaleSighting GetById(int id);
+   public List<WhaleSightingResponse> ListApprovedSightings();
 }
 
 public class WhaleSightingService : IWhaleSightingService
@@ -21,5 +23,10 @@ public class WhaleSightingService : IWhaleSightingService
     public WhaleSighting GetById(int id)
     {
         return _whaleSighting.GetById(id);
+    }
+
+    public List<WhaleSightingResponse> ListApprovedSightings()
+    {
+        return _whaleSighting.ListApprovedSightings();
     }
 }
