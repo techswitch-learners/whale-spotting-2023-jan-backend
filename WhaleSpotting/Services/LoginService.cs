@@ -16,7 +16,7 @@ public class LoginService : ILoginService
     {
         _users = users;
     }
-    
+
     public bool IsValidLogin(string username, string password)
     {
         try
@@ -35,11 +35,10 @@ public class LoginService : ILoginService
         try
         {
             var user = _users.GetByUsername(username);
-            return user.UserType==(UserType) 1;
+            return user.UserType == (UserType)1;
         }
         catch (Exception)
         {
             return false;
         }
     }
-}

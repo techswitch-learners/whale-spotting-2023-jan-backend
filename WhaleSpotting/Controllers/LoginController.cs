@@ -19,7 +19,7 @@ public class LoginController : ControllerBase
     public IActionResult IsValidLogin([FromHeader] string authorization)
     {
         (string Username, string Password) details;
-        
+         
         try
         {
             details = AuthHelper.ExtractFromAuthHeader(authorization);
