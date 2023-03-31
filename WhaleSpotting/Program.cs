@@ -25,6 +25,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IWhaleSightingService, WhaleSightingService>();
 builder.Services.AddTransient<ILikeService, LikeService>();
 builder.Services.AddTransient<ISpeciesService, SpeciesService>();
+builder.Services.AddTransient<ITripPlannerService, TripPlannerService>();
 builder.Services.AddTransient<IWhaleSightingRepo, WhaleSightingRepo>();
 builder.Services.AddTransient<IUserRepo, UserRepo>();
 builder.Services.AddTransient<ILikeRepo, LikeRepo>();
