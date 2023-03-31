@@ -14,6 +14,7 @@ public class WhaleSightingResponse
     public ApprovalStatus ApprovalStatus { get; set; }
     public WhaleSpeciesResponse WhaleSpecies { get; set; }
     public UserResponse User { get; set; }  
+    public ICollection<LikeResponse> Likes {get; set;}
       
     public WhaleSightingResponse(WhaleSighting whaleSighting)
     {
@@ -27,5 +28,6 @@ public class WhaleSightingResponse
         ApprovalStatus = whaleSighting.ApprovalStatus;
         WhaleSpecies = new WhaleSpeciesResponse(whaleSighting.WhaleSpecies) ;
         User = new UserResponse(whaleSighting.User);
+        Likes = whaleSighting.Likes.ToList().map(e => new LikeResponse(e));
     }
 }

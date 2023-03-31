@@ -69,6 +69,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
             .Where(ws => ws.ApprovalStatus == ApprovalStatus.Pending)
             .Include(ws => ws.User)
             .Include(ws => ws.WhaleSpecies)
+            .Include(ws => ws.Likes)
             .Select(ws => new WhaleSightingResponse(ws))
             .ToList();
     }
@@ -80,6 +81,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
             return context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 1)
             .Include(ws => ws.User)
             .Include(ws => ws.WhaleSpecies)
+            .Include(ws => ws.Likes)
             .Select(x => new WhaleSightingResponse(x))
             .AsEnumerable()
             .OrderBy(ws => ws.Id)
