@@ -4,7 +4,7 @@ namespace WhaleSpotting.Models.Response;
 public class UserResponse
 {
     public int Id { get; set; }
-    
+
     public string Username { get; set; }
     public string ProfileImageUrl { get; set; }
     public string UserBio { get; set; }
@@ -14,9 +14,9 @@ public class UserResponse
     public UserResponse(User user)
     {
         Id = user.Id;
-
         Username = user.Username ?? throw new ArgumentNullException(nameof(user));
-
+        ProfileImageUrl = user.ProfileImageUrl;
+        UserBio = user.UserBio;
         UserType = user.UserType;
     }
 }
