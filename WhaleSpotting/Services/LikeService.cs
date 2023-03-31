@@ -8,6 +8,8 @@ namespace WhaleSpotting.Services;
 public interface ILikeService
 {
     public void Create(LikeRequest newLikeRequest, string authHeader);
+    public void Delete(int likeId);
+    public Like GetLikeById(int likeId);
 }
 
 public class LikeService : ILikeService
@@ -25,7 +27,16 @@ public class LikeService : ILikeService
     {
         var userName = AuthHelper.ExtractFromAuthHeader(authHeader).Username;
         var userId = _users.GetByUsername(userName).Id;
-
         _likes.Create(newLikeRequest, userId);
+    }
+    
+    public void Delete(int likeId)
+    {
+        _likes.Delete(likeId);
+    }
+
+    public Like GetLikeById(int likeId)
+    {
+        return _likes.GetLikeById(likeId);
     }
 }
