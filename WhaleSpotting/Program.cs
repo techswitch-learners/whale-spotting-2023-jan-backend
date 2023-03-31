@@ -43,6 +43,7 @@ var services = scope.ServiceProvider;
 var context = services.GetRequiredService<WhaleSpottingDbContext>();
 context.Database.EnsureCreated();
 //Create Sample Data in Database
+context.Database.ExecuteSqlRaw("TRUNCATE public.\"Likes\" RESTART IDENTITY CASCADE");
 context.Database.ExecuteSqlRaw("TRUNCATE public.\"WhaleSightings\" RESTART IDENTITY CASCADE");
 context.Database.ExecuteSqlRaw("TRUNCATE public.\"WhaleSpecies\" RESTART IDENTITY CASCADE");
 context.Database.ExecuteSqlRaw("TRUNCATE public.\"Users\" RESTART IDENTITY CASCADE");
