@@ -51,7 +51,7 @@ public class WhaleSightingController : ControllerBase
     {
         try
         {
-             return  _whaleSightingService.ListApprovedSightings();
+            return _whaleSightingService.ListApprovedSightings();
         }
         catch (ArgumentOutOfRangeException)
         {
