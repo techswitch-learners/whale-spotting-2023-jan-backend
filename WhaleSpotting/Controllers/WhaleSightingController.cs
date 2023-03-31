@@ -32,7 +32,7 @@ public class WhaleSightingController : ControllerBase
         }
     }
 
-    [HttpPatch("{id}/Approve")]
+    [HttpPatch("approve/{id}")]
     public ActionResult ApproveSighting([FromRoute] int id, [FromHeader(Name = "Authorization")] string authorization)
     {
         (string Username, string Password) details;
