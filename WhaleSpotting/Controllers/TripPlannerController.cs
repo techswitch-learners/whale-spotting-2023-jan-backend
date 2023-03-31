@@ -17,7 +17,7 @@ public class TripPlannerController : ControllerBase
     }
 
     [HttpGet("")]
-    public ActionResult<List<TripPlannerResponse>> GetNearBySightings([FromQuery] TripPlannerReuquest input)
+    public ActionResult<List<TripPlannerResponse>> GetNearBySightings([FromQuery] TripPlannerRequest input)
     {
         try
         {
