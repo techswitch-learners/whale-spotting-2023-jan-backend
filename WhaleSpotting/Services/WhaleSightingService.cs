@@ -16,11 +16,13 @@ public class WhaleSightingService : IWhaleSightingService
 {
     private readonly IWhaleSightingRepo _whaleSighting;
     private readonly IUserRepo _users;
+    private readonly ISpeciesRepo _species;
 
-    public WhaleSightingService(IWhaleSightingRepo whaleSighting, IUserRepo users)
+    public WhaleSightingService(IWhaleSightingRepo whaleSighting, IUserRepo users, ISpeciesRepo species)
     {
         _whaleSighting = whaleSighting;
         _users = users;
+        _species = species;
     }
 
     public WhaleSighting GetById(int id)
@@ -32,7 +34,8 @@ public class WhaleSightingService : IWhaleSightingService
     {
         // var userName = AuthHelper.ExtractFromAuthHeader(authHeader).Username;
         // var ourUser = _users.GetByUsername(userName);
-        var ourUser = _users.GetById(2);
-        _whaleSighting.CreateSighting(whaleSightingRequest, ourUser);
+        User user = _users.GetById(6);
+        WhaleSpecies species = _species.GetByName(whaleSightingRequest.WhaleSpecies);
+        _whaleSighting.CreateSighting(whaleSightingRequest, user, species);
     }
 }

@@ -12,16 +12,16 @@ public interface IUserRepo
 
 public class UserRepo : IUserRepo
 {
-    private readonly WhaleSpottingDbContext context;
+    private readonly WhaleSpottingDbContext _context;
 
     public UserRepo(WhaleSpottingDbContext context)
     {
-        this.context = context;
+        _context = context;
     }
 
     public User Create(UserRequest newUserRequest)
     {
-        if (context.Users.Any(u => u.Username == newUserRequest.Username))
+        if (_context.Users.Any(u => u.Username == newUserRequest.Username))
         {
             throw new ArgumentOutOfRangeException(nameof(newUserRequest),
                 $"The given username {newUserRequest.Username} is already present in the database");
@@ -38,8 +38,8 @@ public class UserRepo : IUserRepo
             UserBio = newUserRequest.UserBio,
             UserType = 0,
         };
-        var insertedEntity = context.Users.Add(newUser);
-        context.SaveChanges();
+        var insertedEntity = _context.Users.Add(newUser);
+        _context.SaveChanges();
 
         return insertedEntity.Entity;
     }
@@ -48,7 +48,7 @@ public class UserRepo : IUserRepo
     {
         try
         {
-            return context.Users.Single(u => u.Id == id);
+            return _context.Users.Single(u => u.Id == id);
         }
         catch (InvalidOperationException ex)
         {
@@ -60,7 +60,7 @@ public class UserRepo : IUserRepo
     {
         try
         {
-            return context.Users.Single(u => u.Username == username);
+            return _context.Users.Single(u => u.Username == username);
         }
         catch (InvalidOperationException ex)
         {

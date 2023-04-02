@@ -7,22 +7,22 @@ namespace WhaleSpotting.Repositories;
 public interface IWhaleSightingRepo
 {
     public WhaleSighting GetById(int id);
-    public void CreateSighting(WhaleSightingRequest whaleSightingRequest, User ourUser);
+    public void CreateSighting(WhaleSightingRequest whaleSightingRequest, User ourUser, WhaleSpecies whaleSpecies);
 }
 
 public class WhaleSightingRepo : IWhaleSightingRepo
 {
-    private readonly WhaleSpottingDbContext context;
+    private readonly WhaleSpottingDbContext _context;
     public WhaleSightingRepo(WhaleSpottingDbContext context)
     {
-        this.context = context;
+        _context = context;
     }
 
     public WhaleSighting GetById(int id)
     {
         try
         {
-            return context.WhaleSightings
+            return _context.WhaleSightings
                 .Where(ws => ws.Id == id)
                 .Include(ws => ws.User)
                 .Include(ws => ws.WhaleSpecies)
@@ -34,10 +34,11 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         }
     }
 
-    async public void CreateSighting(WhaleSightingRequest whaleSightingRequest, User ourUser)
+    async public void CreateSighting(WhaleSightingRequest whaleSightingRequest, User user, WhaleSpecies whaleSpecies)
     {
-        var userWhaleSpecies = context.WhaleSpecies.SingleOrDefault(s => s.Name == whaleSightingRequest.WhaleSpecies);
-        var insertResponse = context.WhaleSightings.Add(new WhaleSighting
+        _context.Users.Attach(user);
+        _context.WhaleSpecies.Attach(whaleSpecies);
+        _context.WhaleSightings.Add(new WhaleSighting
         {
             DateOfSighting = whaleSightingRequest.DateOfSighting,
             LocationLatitude = whaleSightingRequest.LocationLatitude,
@@ -46,9 +47,9 @@ public class WhaleSightingRepo : IWhaleSightingRepo
             NumberOfWhales = whaleSightingRequest.NumberOfWhales,
             Description = whaleSightingRequest.Description,
             ApprovalStatus = ApprovalStatus.Pending,
-            WhaleSpecies = userWhaleSpecies,
-            User = ourUser,
+            WhaleSpecies = whaleSpecies,
+            User = user,
         });
-        context.SaveChanges();
+        _context.SaveChanges();
     }
 }

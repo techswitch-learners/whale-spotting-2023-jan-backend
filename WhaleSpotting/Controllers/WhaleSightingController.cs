@@ -6,7 +6,7 @@ using WhaleSpotting.Services;
 namespace WhaleSpotting.Controllers;
 
 [ApiController]
-[Route("sighting")]
+[Route("sightings")]
 public class WhaleSightingController : ControllerBase
 {
     private readonly IWhaleSightingService _whaleSightingService;
@@ -30,7 +30,7 @@ public class WhaleSightingController : ControllerBase
     }
 
     [HttpPost("submit")]
-    public IActionResult CreateSighting([FromRoute] WhaleSightingRequest whaleSightingRequest, string authHeader)
+    public IActionResult CreateSighting([FromBody] WhaleSightingRequest whaleSightingRequest, string authHeader)
     {
         //[FromHeader(Name = "Authorization")]
         if (!ModelState.IsValid)
