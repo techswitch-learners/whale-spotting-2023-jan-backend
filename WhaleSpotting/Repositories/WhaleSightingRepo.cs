@@ -44,6 +44,8 @@ public class WhaleSightingRepo : IWhaleSightingRepo
             return context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 1)
             .Include(ws => ws.User)
             .Include(ws => ws.WhaleSpecies)
+            .Include(ws => ws.Likes)
+                .ThenInclude(wsl => wsl.User)
             .Select(x => new WhaleSightingResponse(x))
             .AsEnumerable()
             .OrderBy(ws => ws.Id)
