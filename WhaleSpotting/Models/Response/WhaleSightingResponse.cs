@@ -14,7 +14,7 @@ public class WhaleSightingResponse
     public ApprovalStatus ApprovalStatus { get; set; }
     public WhaleSpeciesResponse WhaleSpecies { get; set; }
     public UserResponse User { get; set; }  
-    public List<string> ListOfLikers { get; set; }
+    public List<string> LikedBy { get; set; }
       
     public WhaleSightingResponse(WhaleSighting whaleSighting)
     {
@@ -28,6 +28,6 @@ public class WhaleSightingResponse
         ApprovalStatus = whaleSighting.ApprovalStatus;
         WhaleSpecies = new WhaleSpeciesResponse(whaleSighting.WhaleSpecies);
         User = new UserResponse(whaleSighting.User);
-        ListOfLikers = whaleSighting.Likes.Any() ? whaleSighting.Likes.Select(l => l.User.Username).ToList() : new List<string>();
+        LikedBy = whaleSighting.Likes.Any() ? whaleSighting.Likes.Select(l => l.User.Username).ToList() : new List<string>();
     }
 }
