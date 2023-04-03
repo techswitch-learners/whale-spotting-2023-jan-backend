@@ -13,7 +13,6 @@ public class User
     public string? UserBio { get; set; }
     public string? ProfileImageUrl { get; set; }
     public UserType UserType { get; set; }
-
     public ICollection<Like> Likes { get; set; }
 
     public string Password

@@ -10,6 +10,7 @@ public interface ISpeciesService
 {
     List<WhaleSpeciesResponse> Search(SpeciesSearchRequest search);
     List<string> GetSpeciesList();
+    void Create(WhaleSpeciesRequest newWhaleSpecies);
 }
 
 public class SpeciesService : ISpeciesService
@@ -29,5 +30,10 @@ public class SpeciesService : ISpeciesService
     public List<string> GetSpeciesList()
     {
         return _species.GetSpeciesList();
+    }  
+
+    public void Create(WhaleSpeciesRequest newWhaleSpecies)
+    {
+        _species.Create(newWhaleSpecies);
     }  
 }

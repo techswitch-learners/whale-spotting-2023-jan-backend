@@ -1,4 +1,4 @@
-﻿using WhaleSpotting.Repositories;
+using WhaleSpotting.Repositories;
 
 namespace WhaleSpotting.Services;
 
@@ -42,4 +42,4 @@ public class LoginService : ILoginService
             return false;
         }
     }
-};
+}

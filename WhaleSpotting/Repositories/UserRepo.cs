@@ -39,7 +39,7 @@ public class UserRepo : IUserRepo
                            "Property \"Password\" must not be null"),
             ProfileImageUrl = newUserRequest.ProfileImageUrl,
             UserBio = newUserRequest.UserBio,
-            UserType = 0,
+            UserType = newUserRequest.UserType,
         };
         var insertedEntity = context.Users.Add(newUser);
         context.SaveChanges();

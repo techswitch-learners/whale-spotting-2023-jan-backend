@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using WhaleSpotting.Models.Database;
+using WhaleSpotting.Models.Request;
 using WhaleSpotting.Models.Response;
 using WhaleSpotting.Models.Database;
 using WhaleSpotting.Services;
@@ -91,6 +92,20 @@ public class WhaleSightingController : ControllerBase
             return Ok();
         } else {
             return NotFound();
+        }
+    }
+
+    [HttpGet("search")]
+    public IActionResult Search([FromQuery] WhaleSightingSearchRequest whaleSightingSearchRequest)
+    {
+        try
+        {
+            List<WhaleSightingResponse> whaleSightings = _whaleSightingService.Search(whaleSightingSearchRequest);
+            return Ok(whaleSightings);
+        }
+        catch (SystemException ex)
+        {
+            return BadRequest(ex.Message);
         }
     }
 }
