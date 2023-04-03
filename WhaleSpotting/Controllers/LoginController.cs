@@ -53,6 +53,6 @@ public class LoginController : ControllerBase
                 "Authorization header was not valid. Ensure you are using basic auth, and have correctly base64-encoded your username and password.");
         }
 
-        return _loginService.IsAdmin(details.Username) ? Ok() : Unauthroized("User is not admin");
+        return _loginService.IsAdmin(details.Username) ? Ok() : Unauthorized("User is not admin");
     }
 }
