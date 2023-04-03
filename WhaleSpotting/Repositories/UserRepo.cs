@@ -76,18 +76,20 @@ public class UserRepo : IUserRepo
 
     public List<UserLeaderboardResponse> ListOfUserLeaderboard()
     {
-        return context.Users
-                .Include(ws => ws.WhaleSighting)
-                .ThenInclude(l => l.Likes)
-                .Select(x => new UserLeaderboardResponse(x.Username,x.WhaleSighting.Count(),x.Likes.Count()))
-                .AsEnumerable()
-                .ToList();
+        // return context.Users
+        //         .Include(ws => ws.WhaleSighting)
+        //         .ThenInclude(l => l.Likes)
+        //         .Select(x => new UserLeaderboardResponse(x.Username,x.WhaleSighting.Count(),x.Likes.Count()))
+        //         .AsEnumerable()
+        //         .ToList();
 
-            //   return  context.WhaleSightings
-            //     .Include(u => u.User)
-            //     .Include(l => l.Likes)
-            //     .Select(x => new UserLeaderboardResponse(x.User.Username,x.Likes.Count(),x.Likes))
-            //     .AsEnumerable()
-            //     .ToList(); 
+                return context.Users
+                .Include(u => u.WhaleSighting)
+                .ThenInclude(ws=> ws.Likes)
+                .Select(x => new UserLeaderboardResponse(x))
+                .AsEnumerable()
+                .OrderByDescending(r=>r.NumberOfWhaleSightings)
+                //.OrderByDescending(r=>r.LikesReceived)
+                .ToList(); 
     }
 }

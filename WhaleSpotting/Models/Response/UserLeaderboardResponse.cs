@@ -6,17 +6,19 @@ public class UserLeaderboardResponse
     public int Id { get; set; }
 
     public string UserName { get; set; }
-    public int WhaleSightingId{get;set;}
-    public int LikeId{get;set;}
+    public int NumberOfWhaleSightings{get;set;}
+    public int LikesGiven{get;set;}
+    public int LikesReceived{get;set;}
 
     // List<WhaleSighting> WhaleSighting { get; set; }
     // List<Like> Likes{get;set;}
 
-    public UserLeaderboardResponse(string username,int whalesightingid,int likeid)
+    public UserLeaderboardResponse(User user)
     {
-        UserName=username;
-        WhaleSightingId=whalesightingid;
-        LikeId=likeid;
+        UserName=user.Username;
+       NumberOfWhaleSightings=user.WhaleSighting.Count();
+       LikesGiven=user.Likes.Count();
+       LikesReceived=user.WhaleSighting.Sum(item=>item.Likes.Count()); //the sum of LikesCount in a list of WhaleSightings 
     }
 }
  
