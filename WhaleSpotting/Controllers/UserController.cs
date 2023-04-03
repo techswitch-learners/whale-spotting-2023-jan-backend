@@ -43,12 +43,12 @@ public class UserController : ControllerBase
         return Created(url, new UserResponse(user));
     }
 
-    [HttpGet("")]
-    public ActionResult<List<UserResponse>> ListOfUsers()
+    [HttpGet("leaderboard")]
+    public ActionResult<List<UserLeaderboardResponse>> ListOfUserLeaderboard()
     {
         try
         {
-            var users = _userService.ListAllUsers();
+            var users = _userService.ListOfUserLeaderboard();
             return Ok(users);
         }
         catch
