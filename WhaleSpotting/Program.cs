@@ -37,7 +37,7 @@ builder.Services.AddTransient<WhaleSpottingDbContext>();
 
 var app = builder.Build();
 
-//populate db with sample data if empty
+//Create a new scope for dependency injection and retrives service provider instance, retrives an instance of WhaleSpottingDbContext & uses EnsureCreated() to check it has been correctly created.
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
 var context = services.GetRequiredService<WhaleSpottingDbContext>();
@@ -57,23 +57,21 @@ context.Users.AddRange(users);
 context.SaveChanges();
 var sightings = SampleSightings.GetSightings();
 var collectionOfSightings = new List<WhaleSighting>();
-var newWhaleSpecies = new WhaleSpecies();
-var newUser = new User();
-var newWhaleSighting = new WhaleSighting();
 
-foreach (var singleSighting in sightings)
+
+foreach (var sighting in sightings)
 {
-    newWhaleSpecies = context.WhaleSpecies.Single(u => u.Id == singleSighting.WhaleSpeciesId);
-    newUser = context.Users.Single(u => u.Id == singleSighting.UserId);
+    var newWhaleSpecies = context.WhaleSpecies.Single(u => u.Id == sighting.WhaleSpeciesId);
+    var newUser = context.Users.Single(u => u.Id == sighting.UserId);
     collectionOfSightings.Add(new WhaleSighting()
     {
-        DateOfSighting = singleSighting.DateOfSighting.ToUniversalTime(),
-        LocationLatitude = singleSighting.LocationLatitude,
-        LocationLongitude = singleSighting.LocationLongitude,
-        PhotoImageURL = singleSighting.PhotoImageURL,
-        NumberOfWhales = singleSighting.NumberOfWhales,
-        ApprovalStatus = singleSighting.ApprovalStatus,
-        Description = singleSighting.Description,
+        DateOfSighting = sighting.DateOfSighting.ToUniversalTime(),
+        LocationLatitude = sighting.LocationLatitude,
+        LocationLongitude = sighting.LocationLongitude,
+        PhotoImageURL = sighting.PhotoImageURL,
+        NumberOfWhales = sighting.NumberOfWhales,
+        ApprovalStatus = sighting.ApprovalStatus,
+        Description = sighting.Description,
         WhaleSpecies = newWhaleSpecies,
         User = newUser,
     }
