@@ -30,13 +30,13 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         }
         catch (InvalidOperationException ex)
         {
-            throw new ArgumentOutOfRangeException($"No sightning with id {id} found in the database", ex);
+            throw new ArgumentOutOfRangeException($"No sighting with id {id} found in the database", ex);
         }
     }
 
-    async public void CreateSighting(WhaleSightingRequest whaleSightingRequest, User user, WhaleSpecies whaleSpecies)
+    async public void CreateSighting(WhaleSightingRequest whaleSightingRequest, User ourUser, WhaleSpecies whaleSpecies)
     {
-        _context.Users.Attach(user);
+        _context.Users.Attach(ourUser);
         _context.WhaleSpecies.Attach(whaleSpecies);
         _context.WhaleSightings.Add(new WhaleSighting
         {
@@ -48,7 +48,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
             Description = whaleSightingRequest.Description,
             ApprovalStatus = ApprovalStatus.Pending,
             WhaleSpecies = whaleSpecies,
-            User = user,
+            User = ourUser,
         });
         _context.SaveChanges();
     }

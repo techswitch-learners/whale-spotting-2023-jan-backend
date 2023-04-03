@@ -30,7 +30,7 @@ public class WhaleSightingController : ControllerBase
     }
 
     [HttpPost("submit")]
-    public IActionResult CreateSighting([FromBody] WhaleSightingRequest whaleSightingRequest, string authHeader)
+    public IActionResult CreateSighting([FromBody] WhaleSightingRequest whaleSightingRequest, [FromHeader(Name = "Authorization")] string authHeader)
     {
         //[FromHeader(Name = "Authorization")]
         if (!ModelState.IsValid)
@@ -41,54 +41,11 @@ public class WhaleSightingController : ControllerBase
         try
         {
             _whaleSightingService.CreateSighting(whaleSightingRequest, authHeader);
-            return Ok($"TBC");
+            return Ok($"Your sighting has been created!");
         }
         catch (System.Exception ex)
         {
-            return BadRequest(ex.InnerException);
+            return BadRequest(ex.Message);
         }
     }
 }
-
-//from Controller
-/*
-[HttpPost("create")]
-    public IActionResult Create([FromBody] CreateUserRequest newUser)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        var user = _users.Create(newUser);
-
-        var url = Url.Action("GetById", new { id = user.Id });
-        var responseViewModel = new UserResponse(user);
-        return Created(url, responseViewModel);
-    }
-    */
-
-//from Repositroies 
-/*
-public User Create(CreateUserRequest newUser)
-        {
-            byte[] ourSalt = UsersRepo.createSalt();
-            var ourHashedPassword = UsersRepo.createHashedPassword(newUser.UserAddedPassword, ourSalt);
-            var insertResponse = _context.Users.Add(new User
-            {
-                FirstName = newUser.FirstName,
-                LastName = newUser.LastName,
-                Email = newUser.Email,
-                Username = newUser.Username,
-                Salt = ourSalt,
-                Hashed_Password = ourHashedPassword,
-                ProfileImageUrl = newUser.ProfileImageUrl,
-                CoverImageUrl = newUser.CoverImageUrl,
-            });
-            _context.SaveChanges();
-
-            return insertResponse.Entity;
-        }
-        */
-
-

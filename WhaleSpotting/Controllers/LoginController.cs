@@ -37,4 +37,4 @@ public class LoginController : ControllerBase
 
         return Unauthorized("Invalid login details.");
     }
-}
+} 

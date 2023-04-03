@@ -32,10 +32,10 @@ public class WhaleSightingService : IWhaleSightingService
 
     public void CreateSighting(WhaleSightingRequest whaleSightingRequest, string authHeader)
     {
-        // var userName = AuthHelper.ExtractFromAuthHeader(authHeader).Username;
-        // var ourUser = _users.GetByUsername(userName);
-        User user = _users.GetById(6);
+        var userName = AuthHelper.ExtractFromAuthHeader(authHeader).Username;
+        var ourUser = _users.GetByUsername(userName);
+        // User user = _users.GetById(6);
         WhaleSpecies species = _species.GetByName(whaleSightingRequest.WhaleSpecies);
-        _whaleSighting.CreateSighting(whaleSightingRequest, user, species);
+        _whaleSighting.CreateSighting(whaleSightingRequest, ourUser, species);
     }
 }
