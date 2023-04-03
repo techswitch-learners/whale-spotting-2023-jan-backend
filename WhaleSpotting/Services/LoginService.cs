@@ -1,4 +1,4 @@
-﻿using WhaleSpotting.Repositories;
+using WhaleSpotting.Repositories;
 
 namespace WhaleSpotting.Services;
 
