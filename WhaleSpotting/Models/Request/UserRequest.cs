@@ -6,4 +6,5 @@ public class UserRequest
     public string Password { get; set; }
     public string ProfileImageUrl { get; set; }
     public string UserBio { get; set; }
+    public UserType UserType { get; set; }
 }
