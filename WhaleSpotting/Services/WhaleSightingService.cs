@@ -30,7 +30,7 @@ public class WhaleSightingService : IWhaleSightingService
     }
     public void ApproveSighting(int id)
     {
-         _whaleSighting.ApproveSighting(id);
+        _whaleSighting.ApproveSighting(id);
     }
     public void RejectId(int id)
     {

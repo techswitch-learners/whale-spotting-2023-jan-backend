@@ -41,7 +41,8 @@ public class WhaleSpottingDbContext : DbContext
         var userInfo = databaseUri.UserInfo.Split(':');
 
         var builder =
-            new NpgsqlConnectionStringBuilder {
+            new NpgsqlConnectionStringBuilder
+            {
                 Host = databaseUri.Host,
                 Port = databaseUri.Port,
                 Username = userInfo[0],

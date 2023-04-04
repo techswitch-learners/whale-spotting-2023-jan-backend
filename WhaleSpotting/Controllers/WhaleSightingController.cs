@@ -15,7 +15,7 @@ public class WhaleSightingController : ControllerBase
     private readonly IWhaleSightingService _whaleSightingService;
     private readonly ILoginService _loginService;
 
-    public WhaleSightingController(IWhaleSightingService whaleSightingService,ILoginService loginService)
+    public WhaleSightingController(IWhaleSightingService whaleSightingService, ILoginService loginService)
     {
         _whaleSightingService = whaleSightingService;
         _loginService = loginService;
@@ -63,7 +63,7 @@ public class WhaleSightingController : ControllerBase
     {
         try
         {
-             return Ok(_whaleSightingService.GetPendingSightings());
+            return Ok(_whaleSightingService.GetPendingSightings());
         }
         catch (ArgumentOutOfRangeException)
         {
@@ -76,21 +76,24 @@ public class WhaleSightingController : ControllerBase
     {
         try
         {
-             return  _whaleSightingService.ListApprovedSightings();
+            return _whaleSightingService.ListApprovedSightings();
         }
         catch (ArgumentOutOfRangeException)
         {
             return NotFound();
         }
     }
-    
+
     [HttpPatch("{id}/reject")]
-    public IActionResult Reject([FromRoute] int id, [FromHeader(Name = "Authorization")] string authorization) {
-        if(AuthHelper.LoginChecker(authorization, _loginService))
+    public IActionResult Reject([FromRoute] int id, [FromHeader(Name = "Authorization")] string authorization)
+    {
+        if (AuthHelper.LoginChecker(authorization, _loginService))
         {
             _whaleSightingService.RejectId(id);
             return Ok();
-        } else {
+        }
+        else
+        {
             return NotFound();
         }
     }

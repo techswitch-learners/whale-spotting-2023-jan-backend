@@ -2,7 +2,11 @@ using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
 using WhaleSpotting.Models.Response;
 using Microsoft.EntityFrameworkCore;
+using System.Data.SqlClient;
+using System.Data;
+using System.Collections.Generic;
 using WhaleSpotting.Models.Response;
+
 
 namespace WhaleSpotting.Repositories;
 
@@ -13,7 +17,9 @@ public interface IWhaleSightingRepo
     public void RejectId(int id);
     public List<WhaleSightingResponse> GetPendingSightings();
     public List<WhaleSightingResponse> ListApprovedSightings();
+    public List<TripPlannerResponse> ListNearBySightings(float inputLat, float inputLon);
     List<WhaleSightingResponse> Search(WhaleSightingSearchRequest whaleSightingSearchRequest);
+
 }
 
 public class WhaleSightingRepo : IWhaleSightingRepo
@@ -55,7 +61,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
             throw new ArgumentOutOfRangeException($"No sighting with id {id} found in the database", ex);
         }
     }
-    
+
     public void RejectId(int id)
     {
         var rejectSighting = context.WhaleSightings
@@ -95,6 +101,24 @@ public class WhaleSightingRepo : IWhaleSightingRepo
             throw new ArgumentOutOfRangeException($"No approved whale sightings in the database", ex);
         }
     }
+
+    public List<TripPlannerResponse> ListNearBySightings(float inputLat, float inputLon)
+    {
+        try
+        {
+            List<TripPlannerResponse> SighingsList = context.WhaleSightings
+                .Where(ws => (int)ws.ApprovalStatus == 1)
+                .Include(ws => ws.WhaleSpecies)
+                .Select(x => new TripPlannerResponse(x, inputLat, inputLon))
+                .AsEnumerable()
+                .OrderBy(x => x.Distance)
+                .Take(5)
+                .ToList();
+            return (SighingsList);
+        }
+        catch (InvalidOperationException ex)
+        {
+            throw new ArgumentOutOfRangeException($"No NearBy Sightings listed", ex);
 
     public List<WhaleSightingResponse> Search(WhaleSightingSearchRequest whaleSightingSearchRequest) {
         try
