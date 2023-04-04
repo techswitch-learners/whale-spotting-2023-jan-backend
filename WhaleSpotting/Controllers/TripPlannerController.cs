@@ -17,12 +17,12 @@ public class TripPlannerController : ControllerBase
     }
 
     [HttpGet("")]
-    public ActionResult<List<TripPlannerResponse>> GetNearBySightings([FromQuery] TripPlannerRequest input)
+    public ActionResult<List<TripPlannerResponse>> GetNearBySightings([FromQuery] TripPlannerRequest tripPlannerRequest)
     {
         try
         {
-            var response = _tripPlannerService.ListNearBySightings(input.lat, input.lon);
-            return response;
+            var topFiveSightings = _tripPlannerService.ListNearBySightings(tripPlannerRequest.lat, tripPlannerRequest.lon);
+            return topFiveSightings;
         }
         catch (ArgumentOutOfRangeException)
         {

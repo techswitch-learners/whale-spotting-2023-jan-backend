@@ -99,13 +99,13 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         try
         {
             List<TripPlannerResponse> SighingsList = context.WhaleSightings
-             .Where(ws => (int)ws.ApprovalStatus == 1)
-             .Include(ws => ws.WhaleSpecies)
-             .Select(x => new TripPlannerResponse(x, inputLat, inputLon))
-             .AsEnumerable()
-             .OrderBy(x => x.Distance)
-             .Take(5)
-             .ToList();
+                .Where(ws => (int)ws.ApprovalStatus == 1)
+                .Include(ws => ws.WhaleSpecies)
+                .Select(x => new TripPlannerResponse(x, inputLat, inputLon))
+                .AsEnumerable()
+                .OrderBy(x => x.Distance)
+                .Take(5)
+                .ToList();
             return (SighingsList);
         }
         catch (InvalidOperationException ex)
