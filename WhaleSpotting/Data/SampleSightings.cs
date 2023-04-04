@@ -8,7 +8,7 @@ namespace WhaleSpotting.Data
 {
     public static class SampleSightings
     {
-        public const int NumberOfSightings = 15;
+        public const int NumberOfSightings = 31;
 
         private static readonly IList<IList<string>> Data = new List<IList<string>>
         {
@@ -27,6 +27,23 @@ namespace WhaleSpotting.Data
             new List<string> { "49.7855858377441","149.030181938103","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT5tAmADk6EQ2kkFqsmEDSuvFmwuEUXshxxYA&usqp=CAU","9","Tuesdays are free if you bring a gnome costume.","2","68"},
             new List<string> { "-41.5693529417908","24.2254939822084","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4b2uzBl3-Qabp0mwZDBo-pFBSptoBMhDaLw&usqp=CAU","5","Her hair was windswept as she rode in the black convertible.","13","20"},
             new List<string> { "-73.7493320592588","-32.9034133437029","https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYiEWIBUk5Im3sxkDk97H0GndxUUbGlQMIxg&usqp=CAU","4","The tour bus was packed with teenage girls heading toward their next adventure.","7","10"},
+            new List<string> { "37.774929", "-122.419416", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQIJ1Mlh8W0A4l4gZfRJ0pXo8WmS6ttvLQ1gA&usqp=CAU", "3", "The sunset over the bay was breathtaking.", "8", "50" },
+            new List<string> { "-33.8688", "151.2093", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTbdx7dd00kOkN0oTcZM0JZkwXOQaxC1_BsEw&usqp=CAU", "6", "A pod of dolphins swam alongside the boat.", "5", "80" },
+            new List<string> { "51.5074", "-0.1278", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQb5UJKq5g2JjWYfYvj6tkSwkL9X9KbJWOUlQ&usqp=CAU", "1", "The London Eye looked magnificent in the evening light.", "2", "25" },
+            new List<string> { "40.7128", "-74.0060", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-8Wmz6hVRu3ZfRo_h9bBr8WsePjk7VwCgvg&usqp=CAU", "4", "A humpback whale breached right in front of us.", "3", "60" },
+            new List<string> { "-22.9068", "-43.1729", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtBkVtKz0iJ-iM4uPBo19sNT7-FSbDOSZP7w&usqp=CAU", "2", "The Christ the Redeemer statue looked even more impressive up close.", "1", "15" },
+            new List<string> { "35.6895", "139.6917", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFi6Uc0nLmEmnlheYygquCjgkf9XrCD31naw&usqp=CAU", "5", "The cherry blossoms were in full bloom in the park.", "9", "100" },
+            new List<string> { "41.9028", "12.4964", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzbGQDxudxv4i4j7VcwohLfF23sHBOzdTN_w&usqp=CAU", "8", "The Colosseum was even more impressive than I had imagined.", "7", "45" },
+            new List<string> { "51.0447", "-114.0719", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-wJn__cHPVdJET9Xb4pG4s6NpsU6KzMz6zw&usqp=CAU", "2", "We saw a mother and calf humpback whale swimming together.", "2", "30" },
+            new List<string> { "-33.9249", "18.4241", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS_SJFCClPJxujx55OcKSDJ8WzaKjT-JT_4dQ&usqp=CAU", "7", "The view of Table Mountain from the water was amazing.", "6", "75" },
+            new List<string> { "48.8566", "2.3522", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRwKjNNv5CcGp5I5t5Jm3fXmxKklzzyt5fLdA&usqp=CAU", "1", "The Eiffel Tower sparkled in the night sky.", "5", "20" },
+            new List<string> { "37.9838", "23.7275", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRjKvzZXIz_zFijtG8yOqXhtv5z6mHphGjK7g&usqp=CAU", "3", "We spotted a rare blue whale off the coast of Greece.", "1", "100" },
+            new List<string> { "22.3193", "114.1694", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWU6O4vFJ9Z6TDLTjKbgFXCpSvLqy3J90YQA&usqp=CAU", "4", "The Hong Kong skyline was even more impressive from the water.", "3", "50" },
+            new List<string> { "59.3293", "18.0686", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRul5UV5Bq-T5UYtwjAvpS9bY8Dj3qLlFwAog&usqp=CAU", "8", "We were lucky enough to see a pod of orcas swimming together.", "4", "40" },
+            new List<string> { "34.0522", "-118.2437", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTjBEsNlX9ugSVpWzN0s1bPKOncK0lywe-B3g&usqp=CAU", "2", "The Santa Monica pier looked beautiful from the water.", "5", "15" },
+            new List<string> { "37.7749", "-122.4194", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSILM7UgCzU9NJkgUZKfHZQo6u0FXXDBN7VKA&usqp=CAU", "1", "The Golden Gate Bridge looked even more stunning from the water.", "3", "25" },
+            new List<string> { "35.6895", "139.6917", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT3iCvDx-rxQfjsgZtW8XdRiRwTnTj1L-8yWQ&usqp=CAU", "6", "We saw a family of dolphins playing in the water.", "2", "50" },
+            new List<string> { "-41.2906", "174.7845", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRZdS5S5p5l5l5A9ulujP4h2QjK_DJrdmqwNg&usqp=CAU", "5", "The view of the Marlborough Sounds was breathtaking.", "7", "60" },
         };
 
         public static IEnumerable<SampleWhaleSightingRequest> GetSightings()
