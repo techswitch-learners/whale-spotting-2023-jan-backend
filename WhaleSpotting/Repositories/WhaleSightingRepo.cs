@@ -5,6 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Data.SqlClient;
 using System.Data;
 using System.Collections.Generic;
+using WhaleSpotting.Models.Response;
+
 
 namespace WhaleSpotting.Repositories;
 
@@ -16,6 +18,8 @@ public interface IWhaleSightingRepo
     public List<WhaleSightingResponse> GetPendingSightings();
     public List<WhaleSightingResponse> ListApprovedSightings();
     public List<TripPlannerResponse> ListNearBySightings(float inputLat, float inputLon);
+    List<WhaleSightingResponse> Search(WhaleSightingSearchRequest whaleSightingSearchRequest);
+
 }
 
 public class WhaleSightingRepo : IWhaleSightingRepo
@@ -34,6 +38,8 @@ public class WhaleSightingRepo : IWhaleSightingRepo
                 .Where(ws => ws.Id == id)
                 .Include(ws => ws.User)
                 .Include(ws => ws.WhaleSpecies)
+                .Include(ws => ws.Likes)
+                    .ThenInclude(wsl => wsl.User)
                 .FirstOrDefault();
         }
         catch (InvalidOperationException ex)
@@ -83,6 +89,8 @@ public class WhaleSightingRepo : IWhaleSightingRepo
             return context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 1)
             .Include(ws => ws.User)
             .Include(ws => ws.WhaleSpecies)
+            .Include(ws => ws.Likes)
+                .ThenInclude(wsl => wsl.User)
             .Select(x => new WhaleSightingResponse(x))
             .AsEnumerable()
             .OrderBy(ws => ws.Id)
@@ -111,6 +119,37 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         catch (InvalidOperationException ex)
         {
             throw new ArgumentOutOfRangeException($"No NearBy Sightings listed", ex);
+
+    public List<WhaleSightingResponse> Search(WhaleSightingSearchRequest whaleSightingSearchRequest) {
+        try
+        {
+            var query = context.WhaleSightings
+                .Include(ws => ws.User)
+                .Include(ws => ws.WhaleSpecies);
+
+            var filteredQuery = query
+                    .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.WhaleSpecies) 
+                        || ws.WhaleSpecies.Name.ToLower() == whaleSightingSearchRequest.WhaleSpecies.ToLower())
+                    .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.Colour) 
+                        || ws.WhaleSpecies.Colour.ToLower() == whaleSightingSearchRequest.Colour.ToLower())
+                    .Where(ws => !whaleSightingSearchRequest.MaxLongitude.HasValue 
+                        || ws.LocationLongitude <= whaleSightingSearchRequest.MaxLongitude)
+                    .Where(ws => !whaleSightingSearchRequest.MinLongitude.HasValue 
+                        || ws.LocationLongitude >= whaleSightingSearchRequest.MinLongitude)
+                    .Where(ws => !whaleSightingSearchRequest.MaxLatitude.HasValue
+                        || ws.LocationLatitude <= whaleSightingSearchRequest.MaxLatitude)
+                    .Where(ws => !whaleSightingSearchRequest.MinLatitude.HasValue 
+                        || ws.LocationLatitude >= whaleSightingSearchRequest.MinLatitude)
+                    .Where(ws => whaleSightingSearchRequest.TailType == null
+                        || ws.WhaleSpecies.TailType == whaleSightingSearchRequest.TailType)
+                    .Where(ws => whaleSightingSearchRequest.Size == null
+                        || ws.WhaleSpecies.Size == whaleSightingSearchRequest.Size);
+            
+            return filteredQuery.Select(ws => new WhaleSightingResponse(ws)).ToList();
+        }
+        catch (SystemException ex)
+        {
+            throw new SystemException(ex.Message);
         }
     }
 }
