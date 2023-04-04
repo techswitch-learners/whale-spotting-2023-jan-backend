@@ -8,7 +8,6 @@ namespace WhaleSpotting.Services;
 public interface IWhaleSightingService
 {
    public WhaleSighting GetById(int id);
-
    public void CreateSighting(WhaleSightingRequest whaleSightingRequest, string AuthHeader);
 }
 
@@ -32,10 +31,9 @@ public class WhaleSightingService : IWhaleSightingService
 
     public void CreateSighting(WhaleSightingRequest whaleSightingRequest, string authHeader)
     {
-        var userName = AuthHelper.ExtractFromAuthHeader(authHeader).Username;
-        var ourUser = _users.GetByUsername(userName);
-        // User user = _users.GetById(6);
+        string userName = AuthHelper.ExtractFromAuthHeader(authHeader).Username;
+        User user = _users.GetByUsername(userName);
         WhaleSpecies species = _species.GetByName(whaleSightingRequest.WhaleSpecies);
-        _whaleSighting.CreateSighting(whaleSightingRequest, ourUser, species);
+        _whaleSighting.CreateSighting(whaleSightingRequest, user, species);
     }
 }

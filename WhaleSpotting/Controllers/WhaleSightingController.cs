@@ -32,7 +32,6 @@ public class WhaleSightingController : ControllerBase
     [HttpPost("submit")]
     public IActionResult CreateSighting([FromBody] WhaleSightingRequest whaleSightingRequest, [FromHeader(Name = "Authorization")] string authHeader)
     {
-        //[FromHeader(Name = "Authorization")]
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);

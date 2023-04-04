@@ -15,8 +15,6 @@ public class WhaleSighting
     public ApprovalStatus ApprovalStatus {get;set;}
     public string Description { get; set; }
     public WhaleSpecies WhaleSpecies { get; set; }
-    // [ForeignKey("User")]
-    // public int UserId { get;set;}
     public User User { get; set; }
     public ICollection<Like> Likes { get; set; }
 }
