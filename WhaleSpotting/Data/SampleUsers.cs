@@ -110,7 +110,7 @@ namespace WhaleSpotting.Data
             new List<string> {  "sdeport2o","Password123","https://picsum.photos/id/97/200/300","He barked orders at his daughters but they just stared back with amusement."},
             new List<string> {  "zperchard2p","Password123","https://picsum.photos/id/98/200/300","His seven-layer cake only had six layers."},
             new List<string> {  "jiceton2q","Password123","https://picsum.photos/id/99/200/300","I ate a sock because people on the Internet told me to."},
-            new List<string> {  "mbeadell2r","Password123","https://picsum.photos/id/100/200/300","Before he moved to the inner city he had always believed that security complexes were psychological."},                
+            new List<string> {  "mbeadell2r","Password123","https://picsum.photos/id/100/200/300","Before he moved to the inner city he had always believed that security complexes were psychological."},
             };
 
         public static IEnumerable<User> GetUsers()
@@ -120,13 +120,15 @@ namespace WhaleSpotting.Data
 
         private static User CreateRandomUser(int index)
         {
+            Random rand = new Random();
+
             return new User
             {
                 Username = Data[index][0].ToLower(),
-                HashedPassword = Data[index][1],
+                Password = Data[index][1],
                 ProfileImageUrl = Data[index][2],
                 UserBio = Data[index][3],
-                UserType = UserType.Member
+                UserType = rand.Next(0, 2) == 0 ? UserType.Member : UserType.Admin
             };
         }
     }

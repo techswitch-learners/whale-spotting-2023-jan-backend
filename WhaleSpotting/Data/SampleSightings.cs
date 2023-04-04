@@ -48,7 +48,7 @@ namespace WhaleSpotting.Data
                 LocationLongitude = float.Parse(Data[index][1]),
                 PhotoImageURL = Data[index][2],
                 NumberOfWhales = int.Parse(Data[index][3]),
-                ApprovalStatus = ApprovalStatus.Pending,
+                ApprovalStatus = gen.Next(0, 2) == 0 ? ApprovalStatus.Pending : ApprovalStatus.Approved,
                 Description = Data[index][4],
                 WhaleSpeciesId = int.Parse(Data[index][5]),
                 UserId = int.Parse(Data[index][6]),
