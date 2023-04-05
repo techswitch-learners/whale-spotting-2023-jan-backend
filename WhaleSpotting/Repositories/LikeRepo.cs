@@ -1,23 +1,27 @@
 using Microsoft.EntityFrameworkCore;
 using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
+using WhaleSpotting.Utilities;
+using WhaleSpotting.Repositories;
 
 namespace WhaleSpotting.Repositories;
 
 public interface ILikeRepo
 {
     public void Create(LikeRequest newLikeRequest, int userId);
-    public void Delete(int likeId);
+    public void Delete(LikeRequest newUnlike, string authHeader);
     public Like GetLikeById(int likeId);
 }
 
 public class LikeRepo : ILikeRepo
 {
     private readonly WhaleSpottingDbContext context;
+    private readonly IUserRepo _users;
 
-    public LikeRepo(WhaleSpottingDbContext context)
+    public LikeRepo(WhaleSpottingDbContext context, IUserRepo users)
     {
         this.context = context;
+        this._users = users;
     }
 
     public void Create(LikeRequest newLikeRequest, int userId)
@@ -31,9 +35,14 @@ public class LikeRepo : ILikeRepo
         context.SaveChanges();
     }
 
-    public void Delete(int likeId)
+    public void Delete(LikeRequest newUnlike, string authHeader)
     {
-        var like = GetLikeById(likeId);
+        string username = AuthHelper.ExtractFromAuthHeader(authHeader).Username;
+        var userId = _users.GetByUsername(username).Id;
+        var targetLike = context.Likes.Where(i => i.UserId == userId && i.WhaleSightingId == newUnlike.WhaleSightingId)
+                                .FirstOrDefault();
+
+        var like = GetLikeById(targetLike.Id);
         if (like != null)
         {
             context.Likes.Remove(like);
