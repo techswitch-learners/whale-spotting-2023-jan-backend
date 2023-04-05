@@ -2,7 +2,7 @@ namespace WhaleSpotting.Models.Request;
 
 public class WhaleSightingSearchRequest
 {
-    public string? WhaleSpecies { get; set; }
+    public string? Name { get; set; }
     public string? Colour { get; set; }
 	public TailType? TailType { get; set; }
     public WhaleSize? Size { get; set; }
