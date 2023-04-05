@@ -9,7 +9,7 @@ public interface IUserService
 {
     public User Create(UserRequest newUserRequest);
     public User GetById(int id);
-    public List<UserResponse> ListAllUsers();
+    public List<UserLeaderboardResponse> GetUserLeaderboard();
 }
 
 public class UserService : IUserService
@@ -31,8 +31,8 @@ public class UserService : IUserService
         return _users.GetById(id);
     }
 
-    public List<UserResponse> ListAllUsers()
+    public List<UserLeaderboardResponse> GetUserLeaderboard()
     {
-        return _users.ListAllUsers();
+        return _users.GetUserLeaderboard();
     }
 }

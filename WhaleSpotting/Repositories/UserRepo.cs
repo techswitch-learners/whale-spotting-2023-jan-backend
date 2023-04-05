@@ -2,6 +2,8 @@
 using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
 using WhaleSpotting.Models.Response;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace WhaleSpotting.Repositories;
 
@@ -10,7 +12,7 @@ public interface IUserRepo
     public User Create(UserRequest newUserRequest);
     public User GetById(int id);
     public User GetByUsername(string username);
-    public List<UserResponse> ListAllUsers();
+    public List<UserLeaderboardResponse> GetUserLeaderboard();
 }
 
 public class UserRepo : IUserRepo
@@ -71,11 +73,14 @@ public class UserRepo : IUserRepo
         }
     }
 
-    public List<UserResponse> ListAllUsers()
+    public List<UserLeaderboardResponse> GetUserLeaderboard()
     {
-        var allUsers = context.Users
-                       .Select(u => new UserResponse(u))
-                       .ToList();
-        return allUsers;
+                return context.Users
+                    .Include(u => u.WhaleSighting)
+                    .ThenInclude(ws=> ws.Likes)
+                    .Select(x => new UserLeaderboardResponse(x))
+                    .AsEnumerable()
+                    .OrderByDescending(r=>r.NumberOfWhaleSightings)
+                    .ToList(); 
     }
 }

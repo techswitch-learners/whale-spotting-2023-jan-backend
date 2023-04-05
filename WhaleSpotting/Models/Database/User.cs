@@ -9,7 +9,7 @@ public class User
     public int Id { get; set; }
     public string? Username { get; set; }
     public string? HashedPassword { get; set; }
-    List<WhaleSighting> WhaleSighting { get; set; }
+    public List<WhaleSighting> WhaleSighting { get; set; }
     public string? UserBio { get; set; }
     public string? ProfileImageUrl { get; set; }
     public UserType UserType { get; set; }
