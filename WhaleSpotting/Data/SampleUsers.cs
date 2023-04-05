@@ -120,8 +120,6 @@ namespace WhaleSpotting.Data
 
         private static User CreateRandomUser(int index)
         {
-            Random rand = new Random();
-
             return new User
             {
                 Username = Data[index][0].ToLower(),
