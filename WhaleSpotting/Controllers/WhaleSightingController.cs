@@ -83,7 +83,7 @@ public class WhaleSightingController : ControllerBase
         }
     }
 
-    [HttpPatch("{id}/reject")]
+    [HttpPatch("reject/{id}")]
     public IActionResult Reject([FromRoute] int id, [FromHeader(Name = "Authorization")] string authorization)
     {
         if (AuthHelper.LoginChecker(authorization, _loginService))

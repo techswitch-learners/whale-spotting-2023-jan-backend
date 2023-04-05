@@ -72,7 +72,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         try
         {
             var selectedSighting = _context.WhaleSightings.FirstOrDefault(w => w.Id == id);
-            selectedSighting.ApprovalStatus = (ApprovalStatus)1;
+            selectedSighting.ApprovalStatus = ApprovalStatus.Approved;
             _context.SaveChanges();
         }
         catch (InvalidOperationException ex)
