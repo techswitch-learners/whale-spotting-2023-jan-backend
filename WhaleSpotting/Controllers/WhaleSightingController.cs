@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
 using WhaleSpotting.Models.Response;
 using WhaleSpotting.Models.Database;
@@ -84,7 +83,7 @@ public class WhaleSightingController : ControllerBase
         }
     }
 
-    [HttpPatch("{id}/reject")]
+    [HttpPatch("reject/{id}")]
     public IActionResult Reject([FromRoute] int id, [FromHeader(Name = "Authorization")] string authorization)
     {
         if (AuthHelper.LoginChecker(authorization, _loginService))
@@ -107,6 +106,25 @@ public class WhaleSightingController : ControllerBase
             return Ok(whaleSightings);
         }
         catch (SystemException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    [HttpPost("submit")]
+    public IActionResult CreateSighting([FromBody] WhaleSightingRequest whaleSightingRequest, [FromHeader(Name = "Authorization")] string authHeader)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            _whaleSightingService.CreateSighting(whaleSightingRequest, authHeader);
+            return Ok($"Your sighting has been created!");
+        }
+        catch (System.Exception ex)
         {
             return BadRequest(ex.Message);
         }
