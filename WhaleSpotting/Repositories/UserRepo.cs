@@ -75,7 +75,7 @@ public class UserRepo : IUserRepo
 
     public List<UserLeaderboardResponse> GetUserLeaderboard()
     {
-                return context.Users
+                return _context.Users
                     .Include(u => u.WhaleSighting)
                     .ThenInclude(ws=> ws.Likes)
                     .Select(x => new UserLeaderboardResponse(x))
