@@ -13,6 +13,7 @@ public class UserLeaderboardResponse
 
     public UserLeaderboardResponse(User user)
     {
+        Id=user.Id;
         UserName = user.Username;
         NumberOfWhaleSightings = user.WhaleSighting
             .Where(ws => ws.ApprovalStatus == (ApprovalStatus)1)
