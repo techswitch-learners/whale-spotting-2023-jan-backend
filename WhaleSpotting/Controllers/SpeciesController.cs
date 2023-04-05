@@ -17,8 +17,28 @@ public class SpeciesController : ControllerBase
     }
 
     [HttpGet("")]
-    public ActionResult<List<SpeciesResponse>> Search([FromQuery] SpeciesSearchRequest speciesRequest)
+    public ActionResult<List<WhaleSpeciesResponse>> Search([FromQuery] SpeciesSearchRequest speciesRequest)
     {
-        return  _speciesService.Search(speciesRequest);
+        return _speciesService.Search(speciesRequest);
+    }
+
+    [HttpGet("species-list")]
+    public ActionResult<List<string>> GetSpeciesList()
+    {
+        return _speciesService.GetSpeciesList();
+    }
+
+    [HttpPost("create")]
+    public IActionResult Create([FromBody] WhaleSpeciesRequest newWhaleSpecies)
+    {
+        try 
+        {
+            _speciesService.Create(newWhaleSpecies);
+            return Ok($"Whale Species {newWhaleSpecies.Name} created.");
+        }
+        catch (System.Exception ex)
+        {
+            return BadRequest(ex.Message);
+        }
     }
 }

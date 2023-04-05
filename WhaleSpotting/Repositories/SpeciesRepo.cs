@@ -7,7 +7,9 @@ namespace WhaleSpotting.Repositories;
 
 public interface ISpeciesRepo
 {
-    List<SpeciesResponse> Search(SpeciesSearchRequest search);
+    List<WhaleSpeciesResponse> Search(SpeciesSearchRequest search);
+    List<string> GetSpeciesList();
+    void Create(WhaleSpeciesRequest newWhaleSpecies);
     public WhaleSpecies GetByName(string name);
 }
 public class SpeciesRepo : ISpeciesRepo
@@ -18,7 +20,7 @@ public class SpeciesRepo : ISpeciesRepo
     {
         _context = context;
     }
-    public List<SpeciesResponse> Search(SpeciesSearchRequest search)
+    public List<WhaleSpeciesResponse> Search(SpeciesSearchRequest search)
     {
         try
         {
@@ -35,7 +37,7 @@ public class SpeciesRepo : ISpeciesRepo
                                     (
                                         s.Colour == search.Colour
                                     ))
-                .Select(x => new SpeciesResponse(x))
+                .Select(x => new WhaleSpeciesResponse(x))
                 .AsEnumerable()
                 .OrderBy(s => s.Id).ToList();
         }
@@ -55,5 +57,34 @@ public class SpeciesRepo : ISpeciesRepo
         {
             throw new ArgumentOutOfRangeException($"No species with name {name} found in the database", ex);
         }
+    }
+
+    public List<string> GetSpeciesList()
+    {
+        try
+        {
+            return _context.WhaleSpecies
+                .Select(x => x.Name)
+                .ToList();
+        }
+        catch (SystemException ex)
+        {
+            throw new SystemException(ex.Message);
+        }
+    }
+    public void Create(WhaleSpeciesRequest newWhaleSpecies)
+    {
+        _context.WhaleSpecies.Add(new WhaleSpecies
+        {
+            ImageUrl = newWhaleSpecies.ImageUrl,
+            Name = newWhaleSpecies.Name,
+            TailType = newWhaleSpecies.TailType,
+            TeethType = newWhaleSpecies.TeethType,
+            Size = newWhaleSpecies.Size,
+            Colour = newWhaleSpecies.Colour,
+            Location = newWhaleSpecies.Location,
+            Diet = newWhaleSpecies.Diet,
+        });
+        _context.SaveChanges();
     }
 }

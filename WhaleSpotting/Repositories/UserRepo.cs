@@ -1,5 +1,9 @@
-﻿using WhaleSpotting.Models.Database;
+﻿using System.Linq;
+using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
+using WhaleSpotting.Models.Response;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace WhaleSpotting.Repositories;
 
@@ -8,6 +12,7 @@ public interface IUserRepo
     public User Create(UserRequest newUserRequest);
     public User GetById(int id);
     public User GetByUsername(string username);
+    public List<UserLeaderboardResponse> GetUserLeaderboard();
 }
 
 public class UserRepo : IUserRepo
@@ -36,7 +41,7 @@ public class UserRepo : IUserRepo
                            "Property \"Password\" must not be null"),
             ProfileImageUrl = newUserRequest.ProfileImageUrl,
             UserBio = newUserRequest.UserBio,
-            UserType = 0,
+            UserType = newUserRequest.UserType,
         };
         var insertedEntity = _context.Users.Add(newUser);
         _context.SaveChanges();
@@ -66,5 +71,16 @@ public class UserRepo : IUserRepo
         {
             throw new ArgumentOutOfRangeException($"No user with username {username} found in the database", ex);
         }
+    }
+
+    public List<UserLeaderboardResponse> GetUserLeaderboard()
+    {
+                return context.Users
+                    .Include(u => u.WhaleSighting)
+                    .ThenInclude(ws=> ws.Likes)
+                    .Select(x => new UserLeaderboardResponse(x))
+                    .AsEnumerable()
+                    .OrderByDescending(r=>r.NumberOfWhaleSightings)
+                    .ToList(); 
     }
 }

@@ -1,5 +1,6 @@
 using WhaleSpotting.Models.Database;
 using WhaleSpotting.Models.Request;
+using WhaleSpotting.Models.Response;
 using WhaleSpotting.Repositories;
 using WhaleSpotting.Utilities;
 
@@ -9,6 +10,11 @@ public interface IWhaleSightingService
 {
    public WhaleSighting GetById(int id);
    public void CreateSighting(WhaleSightingRequest whaleSightingRequest, string AuthHeader);
+   public void ApproveSighting(int id);
+   public void RejectId(int id);
+   public List<WhaleSightingResponse> GetPendingSightings();
+   public List<WhaleSightingResponse> ListApprovedSightings();
+   public List<WhaleSightingResponse> Search(WhaleSightingSearchRequest whaleSightingSearchRequest);
 }
 
 public class WhaleSightingService : IWhaleSightingService
@@ -35,5 +41,27 @@ public class WhaleSightingService : IWhaleSightingService
         User user = _users.GetByUsername(userName);
         WhaleSpecies species = _species.GetByName(whaleSightingRequest.WhaleSpecies);
         _whaleSighting.CreateSighting(whaleSightingRequest, user, species);
+    }
+    public void ApproveSighting(int id)
+    {
+        _whaleSighting.ApproveSighting(id);
+    }
+    public void RejectId(int id)
+    {
+        _whaleSighting.RejectId(id);
+    }
+
+    public List<WhaleSightingResponse> GetPendingSightings()
+    {
+        return _whaleSighting.GetPendingSightings();
+    }
+
+    public List<WhaleSightingResponse> ListApprovedSightings()
+    {
+        return _whaleSighting.ListApprovedSightings();
+    }
+
+    public List<WhaleSightingResponse> Search(WhaleSightingSearchRequest whaleSightingSearchRequest) {
+        return _whaleSighting.Search(whaleSightingSearchRequest);
     }
 }

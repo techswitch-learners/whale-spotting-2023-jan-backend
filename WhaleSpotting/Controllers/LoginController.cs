@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using WhaleSpotting.Services;
 using WhaleSpotting.Utilities;
 
@@ -19,7 +19,7 @@ public class LoginController : ControllerBase
     public IActionResult IsValidLogin([FromHeader] string authorization)
     {
         (string Username, string Password) details;
-        
+         
         try
         {
             details = AuthHelper.ExtractFromAuthHeader(authorization);
@@ -37,4 +37,22 @@ public class LoginController : ControllerBase
 
         return Unauthorized("Invalid login details.");
     }
-} 
+
+    [HttpGet("admin")]
+    public IActionResult IsAdmin([FromHeader] string authorization)
+    {
+        (string Username, string password) details;
+         
+        try
+        {
+            details = AuthHelper.ExtractFromAuthHeader(authorization);
+        }
+        catch (Exception)
+        {
+            return Unauthorized(
+                "Authorization header was not valid. Ensure you are using basic auth, and have correctly base64-encoded your username and password.");
+        }
+
+        return _loginService.IsAdmin(details.Username) ? Ok() : Unauthorized("User is not admin");
+    }
+}
