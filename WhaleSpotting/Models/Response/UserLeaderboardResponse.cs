@@ -17,13 +17,13 @@ public class UserLeaderboardResponse
     {
         UserName = user.Username;
         NumberOfWhaleSightings = user.WhaleSighting
-        .Where(ws => ws.ApprovalStatus == (ApprovalStatus)1)
-        .Count();
+            .Where(ws => ws.ApprovalStatus == (ApprovalStatus)1)
+            .Count();
         LikesGiven = user.Likes
-        .Count();
+            .Count();
         LikesReceived = user.WhaleSighting
-        .Where(ws => ws.ApprovalStatus == (ApprovalStatus)1)
-        .Sum(item => item.Likes
-        .Count()); 
+            .Where(ws => ws.ApprovalStatus == (ApprovalStatus)1)
+            .Sum(item => item.Likes
+            .Count()); 
     }
 }
