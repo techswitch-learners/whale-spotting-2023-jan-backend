@@ -8,8 +8,6 @@ public class UserLeaderboardResponse
     public string UserName { get; set; }
 
     public int NumberOfWhaleSightings { get; set; }
-
-    public int LikesGiven { get; set; }
     
     public int LikesReceived { get; set; }
 
@@ -18,8 +16,6 @@ public class UserLeaderboardResponse
         UserName = user.Username;
         NumberOfWhaleSightings = user.WhaleSighting
             .Where(ws => ws.ApprovalStatus == (ApprovalStatus)1)
-            .Count();
-        LikesGiven = user.Likes
             .Count();
         LikesReceived = user.WhaleSighting
             .Where(ws => ws.ApprovalStatus == (ApprovalStatus)1)
