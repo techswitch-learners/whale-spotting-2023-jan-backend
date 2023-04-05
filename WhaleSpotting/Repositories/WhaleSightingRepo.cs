@@ -93,7 +93,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
 
     public List<WhaleSightingResponse> GetPendingSightings()
     {
-        return context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 0)
+        return _context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 0)
             .Include(ws => ws.User)
             .Include(ws => ws.WhaleSpecies)
             .Include(ws => ws.Likes)
@@ -148,7 +148,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
     {
         try
         {
-            var query = context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 1)
+            var query = _context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 1)
                 .Include(ws => ws.User)
                 .Include(ws => ws.WhaleSpecies)
                 .Include(ws => ws.Likes)
