@@ -13,28 +13,28 @@ namespace WhaleSpotting.Repositories;
 public interface IWhaleSightingRepo
 {
     public WhaleSighting GetById(int id);
+    public void CreateSighting(WhaleSightingRequest whaleSightingRequest, User ourUser, WhaleSpecies whaleSpecies);
     public void ApproveSighting(int id);
     public void RejectId(int id);
     public List<WhaleSightingResponse> GetPendingSightings();
     public List<WhaleSightingResponse> ListApprovedSightings();
     public List<TripPlannerResponse> ListNearBySightings(float inputLat, float inputLon);
     List<WhaleSightingResponse> Search(WhaleSightingSearchRequest whaleSightingSearchRequest);
-
 }
 
 public class WhaleSightingRepo : IWhaleSightingRepo
 {
-    private readonly WhaleSpottingDbContext context;
+    private readonly WhaleSpottingDbContext _context;
     public WhaleSightingRepo(WhaleSpottingDbContext context)
     {
-        this.context = context;
+        _context = context;
     }
 
     public WhaleSighting GetById(int id)
     {
         try
         {
-            return context.WhaleSightings
+            return _context.WhaleSightings
                 .Where(ws => ws.Id == id)
                 .Include(ws => ws.User)
                 .Include(ws => ws.WhaleSpecies)
@@ -48,13 +48,32 @@ public class WhaleSightingRepo : IWhaleSightingRepo
         }
     }
 
+    async public void CreateSighting(WhaleSightingRequest whaleSightingRequest, User ourUser, WhaleSpecies whaleSpecies)
+    {
+        _context.Users.Attach(ourUser);
+        _context.WhaleSpecies.Attach(whaleSpecies);
+        _context.WhaleSightings.Add(new WhaleSighting
+        {
+            DateOfSighting = whaleSightingRequest.DateOfSighting,
+            LocationLatitude = whaleSightingRequest.LocationLatitude,
+            LocationLongitude = whaleSightingRequest.LocationLongitude,
+            PhotoImageURL = whaleSightingRequest.PhotoImageURL,
+            NumberOfWhales = whaleSightingRequest.NumberOfWhales,
+            Description = whaleSightingRequest.Description,
+            ApprovalStatus = ApprovalStatus.Pending,
+            WhaleSpecies = whaleSpecies,
+            User = ourUser,
+        });
+        _context.SaveChanges();
+    }
+
     public void ApproveSighting(int id)
     {
         try
         {
-            var selectedSighting = context.WhaleSightings.FirstOrDefault(w => w.Id == id);
+            var selectedSighting = _context.WhaleSightings.FirstOrDefault(w => w.Id == id);
             selectedSighting.ApprovalStatus = (ApprovalStatus)1;
-            context.SaveChanges();
+            _context.SaveChanges();
         }
         catch (InvalidOperationException ex)
         {
@@ -64,17 +83,17 @@ public class WhaleSightingRepo : IWhaleSightingRepo
 
     public void RejectId(int id)
     {
-        var rejectSighting = context.WhaleSightings
+        var rejectSighting = _context.WhaleSightings
             .FirstOrDefault(ws => ws.Id == id);
 
         rejectSighting.ApprovalStatus = ApprovalStatus.Deleted;
-        context.WhaleSightings.Update(rejectSighting);
-        context.SaveChanges();
+        _context.WhaleSightings.Update(rejectSighting);
+        _context.SaveChanges();
     }
 
     public List<WhaleSightingResponse> GetPendingSightings()
     {
-        return context.WhaleSightings
+        return _context.WhaleSightings
             .Where(ws => ws.ApprovalStatus == ApprovalStatus.Pending)
             .Include(ws => ws.User)
             .Include(ws => ws.WhaleSpecies)
@@ -86,7 +105,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
     {
         try
         {
-            return context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 1)
+            return _context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 1)
             .Include(ws => ws.User)
             .Include(ws => ws.WhaleSpecies)
             .Include(ws => ws.Likes)
@@ -106,7 +125,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
     {
         try
         {
-            List<TripPlannerResponse> SighingsList = context.WhaleSightings
+            List<TripPlannerResponse> SighingsList = _context.WhaleSightings
                 .Where(ws => (int)ws.ApprovalStatus == 1)
                 .Include(ws => ws.WhaleSpecies)
                 .Select(x => new TripPlannerResponse(x, inputLat, inputLon))
@@ -126,7 +145,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
     {
         try
         {
-            var query = context.WhaleSightings
+            var query = _context.WhaleSightings
                 .Include(ws => ws.User)
                 .Include(ws => ws.WhaleSpecies);
 
