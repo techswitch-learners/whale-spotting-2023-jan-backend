@@ -74,11 +74,14 @@ public class WhaleSightingRepo : IWhaleSightingRepo
 
     public List<WhaleSightingResponse> GetPendingSightings()
     {
-        return context.WhaleSightings
-            .Where(ws => ws.ApprovalStatus == ApprovalStatus.Pending)
+        return context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 0)
             .Include(ws => ws.User)
             .Include(ws => ws.WhaleSpecies)
-            .Select(ws => new WhaleSightingResponse(ws))
+            .Include(ws => ws.Likes)
+                .ThenInclude(wsl => wsl.User)
+            .Select(x => new WhaleSightingResponse(x))
+            .AsEnumerable()
+            .OrderByDescending(ws => ws.DateOfSighting)
             .ToList();
     }
 
@@ -93,7 +96,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
                 .ThenInclude(wsl => wsl.User)
             .Select(x => new WhaleSightingResponse(x))
             .AsEnumerable()
-            .OrderBy(ws => ws.Id)
+            .OrderByDescending(ws => ws.DateOfSighting)
             .ToList();
         }
         catch (InvalidOperationException ex)
@@ -126,13 +129,15 @@ public class WhaleSightingRepo : IWhaleSightingRepo
     {
         try
         {
-            var query = context.WhaleSightings
+            var query = context.WhaleSightings.Where(ws => (int)ws.ApprovalStatus == 1)
                 .Include(ws => ws.User)
-                .Include(ws => ws.WhaleSpecies);
+                .Include(ws => ws.WhaleSpecies)
+                .Include(ws => ws.Likes)
+                    .ThenInclude(wsl => wsl.User);
 
             var filteredQuery = query
-                    .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.WhaleSpecies)
-                        || ws.WhaleSpecies.Name.ToLower() == whaleSightingSearchRequest.WhaleSpecies.ToLower())
+                    .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.Name)
+                        || ws.WhaleSpecies.Name.ToLower() == whaleSightingSearchRequest.Name.ToLower())
                     .Where(ws => string.IsNullOrEmpty(whaleSightingSearchRequest.Colour)
                         || ws.WhaleSpecies.Colour.ToLower() == whaleSightingSearchRequest.Colour.ToLower())
                     .Where(ws => !whaleSightingSearchRequest.MaxLongitude.HasValue
@@ -148,7 +153,7 @@ public class WhaleSightingRepo : IWhaleSightingRepo
                     .Where(ws => whaleSightingSearchRequest.Size == null
                         || ws.WhaleSpecies.Size == whaleSightingSearchRequest.Size);
 
-            return filteredQuery.Select(ws => new WhaleSightingResponse(ws)).ToList();
+            return filteredQuery.Select(ws => new WhaleSightingResponse(ws)).AsEnumerable().OrderByDescending(ws => ws.DateOfSighting).ToList();
         }
         catch (SystemException ex)
         {
