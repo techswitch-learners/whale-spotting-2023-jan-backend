@@ -128,7 +128,7 @@ namespace WhaleSpotting.Data
                 Password = Data[index][1],
                 ProfileImageUrl = Data[index][2],
                 UserBio = Data[index][3],
-                UserType = rand.Next(0, 5) == 0 ? UserType.Admin : UserType.Member,
+                UserType = index < 5 ? UserType.Admin : UserType.Member,
             };
         }
     }
