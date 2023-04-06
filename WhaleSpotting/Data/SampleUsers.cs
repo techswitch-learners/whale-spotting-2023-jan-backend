@@ -11,7 +11,7 @@ namespace WhaleSpotting.Data
 
         private static readonly IList<IList<string>> Data = new List<IList<string>>
         {
-            new List<string> {  "kplacido0","Password123","https://picsum.photos/id/1/200/300","He found the chocolate covered roaches quite tasty."},
+            new List<string> {  "admin","Password123","https://picsum.photos/id/1/200/300","He found the chocolate covered roaches quite tasty."},
             new List<string> {  "sgariff1","Password123","https://picsum.photos/id/2/200/300","Some bathing suits just shouldn’t be worn by some people."},
             new List<string> {  "cburgiss2","Password123","https://picsum.photos/id/3/200/300","So long and thanks for the fish."},
             new List<string> {  "bpercival3","Password123","https://picsum.photos/id/4/200/300","She was disgusted he couldn’t tell the difference between lemonade and limeade."},
@@ -19,7 +19,7 @@ namespace WhaleSpotting.Data
             new List<string> {  "csakins5","Password123","https://picsum.photos/id/6/200/300","The fox in the tophat whispered into the ear of the rabbit."},
             new List<string> {  "zbarkworth6","Password123","https://picsum.photos/id/7/200/300","He colored deep space a soft yellow."},
             new List<string> {  "hverick7","Password123","https://picsum.photos/id/8/200/300","After exploring the abandoned building he started to believe in ghosts."},
-            new List<string> {  "mlovett8","Password123","https://picsum.photos/id/9/200/300","Pink horses galloped across the sea."},
+            new List<string> {  "member","Password123","https://picsum.photos/id/9/200/300","Pink horses galloped across the sea."},
             new List<string> {  "asmyth9","Password123","https://picsum.photos/id/10/200/300","The waitress was not amused when he ordered green eggs and ham."},
             new List<string> {  "roscallana","Password123","https://picsum.photos/id/11/200/300","The skeleton had skeletons of his own in the closet."},
             new List<string> {  "kbevingtonb","Password123","https://picsum.photos/id/12/200/300","He excelled at firing people nicely."},
