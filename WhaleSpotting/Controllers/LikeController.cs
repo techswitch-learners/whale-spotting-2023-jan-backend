@@ -34,12 +34,13 @@ public class LikeController : ControllerBase
         }
     }
 
-    [HttpDelete("delete/{likeId:int}")]
-    public IActionResult DeleteLike([FromRoute] int likeId)
+    [HttpDelete("delete")]
+    //public IActionResult DeleteLike([FromRoute] int likeId)
+    public IActionResult DeleteLike([FromBody] LikeRequest newUnlike, [FromHeader(Name = "Authorization")] string authHeader)
     {
         try
         {
-            _likesService.Delete(likeId);
+            _likesService.Delete(newUnlike, authHeader);
             return Ok($"Like deleted");
         }
         catch (Exception)
